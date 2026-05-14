@@ -3,91 +3,69 @@
 import { FormEvent, useState } from "react";
 
 type ContactFormProps = {
-  compact?: boolean;
+  locale: string;
 };
 
-export function ContactForm({ compact = false }: ContactFormProps) {
+export function ContactForm({ locale }: ContactFormProps) {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-
     setLoading(true);
-    setMessage(null);
+    setStatus(null);
+
+    const data = new FormData(event.currentTarget);
 
     const response = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: formData.get("name"),
-        email: formData.get("email"),
-        organization: formData.get("organization"),
-        message: formData.get("message"),
+        name: data.get("name"),
+        email: data.get("email"),
+        organization: data.get("organization"),
+        projectType: data.get("projectType"),
+        message: data.get("message"),
+        locale,
       }),
     });
 
     if (!response.ok) {
-      setMessage("Impossible d'envoyer pour le moment. Essayez encore dans quelques minutes.");
+      setStatus(locale === "fr" ? "Echec envoi. Reessayez." : "Sending failed. Please retry.");
       setLoading(false);
       return;
     }
 
     event.currentTarget.reset();
-    setMessage("Message envoye. Notre equipe vous recontacte sous 24h ouvrables.");
+    setStatus(locale === "fr" ? "Demande envoyee. Reponse sous 24h." : "Request sent. We reply within 24h.");
     setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="space-y-2 text-sm text-[#cbebcf]">
-          Nom complet
-          <input
-            required
-            name="name"
-            className="w-full rounded-xl border border-white/15 bg-[#07140e] px-4 py-3 text-sm text-white outline-none transition focus:border-[#9ff59f]/80"
-          />
-        </label>
-        <label className="space-y-2 text-sm text-[#cbebcf]">
-          Email pro
-          <input
-            required
-            type="email"
-            name="email"
-            className="w-full rounded-xl border border-white/15 bg-[#07140e] px-4 py-3 text-sm text-white outline-none transition focus:border-[#9ff59f]/80"
-          />
-        </label>
+    <form onSubmit={submit} className="space-y-4">
+      <div className="grid gap-3 md:grid-cols-2">
+        <input required name="name" placeholder={locale === "fr" ? "Nom complet" : "Full name"} className="field" />
+        <input required type="email" name="email" placeholder="Email" className="field" />
       </div>
-
-      <label className="space-y-2 text-sm text-[#cbebcf]">
-        Organisation
+      <div className="grid gap-3 md:grid-cols-2">
+        <input name="organization" placeholder={locale === "fr" ? "Organisation" : "Organization"} className="field" />
         <input
-          name="organization"
-          className="w-full rounded-xl border border-white/15 bg-[#07140e] px-4 py-3 text-sm text-white outline-none transition focus:border-[#9ff59f]/80"
+          name="projectType"
+          placeholder={locale === "fr" ? "Type de projet (site, IA, app...)" : "Project type (web, AI, app...)"}
+          className="field"
         />
-      </label>
-
-      <label className="space-y-2 text-sm text-[#cbebcf]">
-        Votre besoin
-        <textarea
-          required
-          name="message"
-          rows={compact ? 3 : 5}
-          className="w-full rounded-xl border border-white/15 bg-[#07140e] px-4 py-3 text-sm text-white outline-none transition focus:border-[#9ff59f]/80"
-        />
-      </label>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="inline-flex w-full items-center justify-center rounded-full bg-[#8eff91] px-6 py-3 text-sm font-semibold text-[#022909] transition hover:-translate-y-0.5 hover:bg-[#b6ffb8] disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {loading ? "Envoi en cours..." : "Demander un cadrage"}
+      </div>
+      <textarea
+        required
+        rows={5}
+        name="message"
+        placeholder={locale === "fr" ? "Decrivez votre besoin" : "Describe your needs"}
+        className="field"
+      />
+      <button className="w-full rounded-full bg-accent px-4 py-3 text-sm font-semibold text-[#04290d] transition hover:-translate-y-0.5" disabled={loading}>
+        {loading ? (locale === "fr" ? "Envoi..." : "Sending...") : locale === "fr" ? "Envoyer la demande de devis" : "Send quote request"}
       </button>
-
-      {message ? <p className="text-sm text-[#b9e7bf]">{message}</p> : null}
+      {status ? <p className="text-sm text-muted-text">{status}</p> : null}
     </form>
   );
 }

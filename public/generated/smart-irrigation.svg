@@ -1,0 +1,24 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f2f1a"/>
+      <stop offset="100%" stop-color="#081a10"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg2)"/>
+  <g opacity="0.55">
+    <rect x="120" y="200" width="960" height="420" rx="36" fill="#10331d" stroke="#76d888" stroke-width="2"/>
+    <path d="M120 300H1080M120 400H1080M120 500H1080" stroke="#6ccf81" stroke-opacity="0.45"/>
+    <path d="M280 200V620M440 200V620M600 200V620M760 200V620M920 200V620" stroke="#6ccf81" stroke-opacity="0.45"/>
+  </g>
+  <g>
+    <circle cx="280" cy="310" r="28" fill="#8dff9a"/>
+    <circle cx="600" cy="430" r="28" fill="#8dff9a"/>
+    <circle cx="920" cy="520" r="28" fill="#8dff9a"/>
+    <path d="M280 310L600 430L920 520" stroke="#b6ffbf" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="500" y="80" width="200" height="92" rx="18" fill="#102f1b" stroke="#8dff9a"/>
+    <text x="540" y="136" fill="#dffff0" font-size="34" font-family="Arial, sans-serif">IOT + AI</text>
+  </g>
+</svg>

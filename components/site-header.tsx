@@ -1,68 +1,69 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { getDictionary, localizePath } from "@/lib/i18n";
+import type { Locale } from "@/data/site-content";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-const navigation = [
-  { href: "/services", label: "Services" },
-  { href: "/secteurs", label: "Secteurs" },
-  { href: "/projets", label: "Projets" },
-  { href: "/impact", label: "Impact" },
-  { href: "/a-propos", label: "A propos" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-];
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const copy = getDictionary(locale);
 
-export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#060f0a]/80 backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-3 md:px-8">
-        <Link href="/" className="group flex items-center gap-3">
+    <header className="sticky top-0 z-50 border-b border-border/90 bg-surface/80 backdrop-blur-xl">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-8">
+        <Link href={`/${locale}`} className="inline-flex items-center gap-2">
           <Image
-            src="/kijanilab-logo.svg"
-            alt="KijaniLab"
-            width={160}
+            src="/kijanilab-icon-green.svg"
+            alt="KijaniLab icon"
+            width={42}
             height={42}
-            className="h-9 w-auto transition duration-300 group-hover:brightness-110"
+            className="h-10 w-10"
             priority
           />
+          <span className="font-display text-2xl text-base-text">KijaniLab</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
-          {navigation.map((item) => (
+        <nav className="hidden items-center gap-5 xl:flex">
+          {copy.nav.map((item) => (
             <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium tracking-wide text-[#d8f7d8] transition hover:text-white"
+              key={item.href + item.label}
+              href={localizePath(locale, item.href)}
+              className="text-sm text-muted-text transition hover:text-base-text"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <Link
-          href="/contact"
-          className="hidden rounded-full border border-[#89f68d]/60 bg-[#89f68d]/10 px-4 py-2 text-sm font-semibold text-[#d8ffd9] transition hover:-translate-y-0.5 hover:bg-[#89f68d]/20 md:inline-flex"
-        >
-          Parler a un expert
-        </Link>
+        <div className="flex items-center gap-2">
+          <LocaleSwitcher locale={locale} />
+          <ThemeToggle />
+          <Link
+            href={localizePath(locale, "/contact")}
+            className="hidden rounded-full bg-accent px-4 py-2 text-sm font-semibold text-[#03260c] transition hover:-translate-y-0.5 md:inline-flex"
+          >
+            {copy.cta.primary}
+          </Link>
 
-        <details className="md:hidden">
-          <summary className="cursor-pointer list-none rounded-full border border-white/20 px-3 py-1 text-sm text-[#d8f7d8]">
-            Menu
-          </summary>
-          <div className="absolute right-5 mt-3 w-52 rounded-2xl border border-white/10 bg-[#08170f] p-3 shadow-2xl">
-            <div className="flex flex-col gap-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="rounded-xl px-3 py-2 text-sm text-[#d8f7d8] transition hover:bg-white/5"
-                >
-                  {item.label}
-                </Link>
-              ))}
+          <details className="xl:hidden">
+            <summary className="inline-flex h-10 cursor-pointer list-none items-center rounded-full border border-border px-3 text-sm text-base-text">
+              Menu
+            </summary>
+            <div className="absolute right-4 top-[4.3rem] w-56 rounded-2xl border border-border bg-surface-elevated p-3 shadow-xl md:right-8">
+              <div className="grid gap-2">
+                {copy.nav.map((item) => (
+                  <Link
+                    key={item.href + item.label}
+                    href={localizePath(locale, item.href)}
+                    className="rounded-xl px-3 py-2 text-sm text-muted-text transition hover:bg-panel hover:text-base-text"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        </details>
+          </details>
+        </div>
       </div>
     </header>
   );

@@ -1,26 +1,23 @@
 import Link from "next/link";
+import { getDictionary, localizePath } from "@/lib/i18n";
+import type { Locale } from "@/data/site-content";
 
-export function SiteFooter() {
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const copy = getDictionary(locale);
+
   return (
-    <footer className="mt-24 border-t border-white/10 bg-[#040a07] py-10">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-5 md:flex-row md:items-end md:justify-between md:px-8">
-        <div className="space-y-2">
-          <p className="text-sm uppercase tracking-[0.32em] text-[#92dfa3]">KijaniLab</p>
-          <p className="max-w-md text-sm text-[#b9d7bd]">
-            Agri-tech, data et transformation digitale pour les chaines de valeur agricoles et climatiques.
-          </p>
+    <footer className="mt-24 border-t border-border bg-panel py-10">
+      <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 md:grid-cols-[1.4fr_1fr] md:px-8">
+        <div>
+          <p className="font-display text-3xl text-base-text">KijaniLab</p>
+          <p className="mt-2 max-w-xl text-sm text-muted-text">{copy.footer}</p>
         </div>
-        <div className="flex flex-wrap items-center gap-4 text-sm text-[#b9d7bd]">
-          <Link href="/services" className="transition hover:text-white">
-            Services
-          </Link>
-          <Link href="/projets" className="transition hover:text-white">
-            Projets
-          </Link>
-          <Link href="/contact" className="transition hover:text-white">
-            Contact
-          </Link>
-          <p className="text-[#8aac92]">© {new Date().getFullYear()} KijaniLab</p>
+        <div className="grid grid-cols-2 gap-3 text-sm text-muted-text">
+          {copy.nav.slice(0, 8).map((item) => (
+            <Link key={item.href + item.label} href={localizePath(locale, item.href)} className="hover:text-base-text">
+              {item.label}
+            </Link>
+          ))}
         </div>
       </div>
     </footer>

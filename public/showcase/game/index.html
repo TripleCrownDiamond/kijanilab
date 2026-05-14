@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#08110D" />
+  <title>KijaniLab · Mini-jeu agritech — Du champ à la Smart Farm</title>
+  <meta name="description" content="Mini-jeu pédagogique : cultivez, élevez, pêchez, vendez. Achetez tracteur, irrigation, drone et IA pour atteindre la Smart Farm." />
+  <link rel="icon" href="/showcase/assets/logo-green-black-leaf.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/showcase/assets/styles.css" />
+  <style>
+    /* ───────── game-only overrides — built on the shared design system */
+    body { padding-bottom: 100px; }
+
+    .game-shell { padding: clamp(72px, 10vh, 110px) var(--gutter) 60px; max-width: var(--max); margin-inline: auto; }
+
+    .game-intro { display: grid; gap: 14px; margin-bottom: clamp(24px, 4vw, 40px); }
+    .game-intro h1 {
+      font-family: var(--display);
+      font-size: clamp(36px, 6vw, 76px);
+      font-weight: 360;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      letter-spacing: -0.025em;
+      line-height: 0.96;
+      margin: 0;
+      max-width: 18ch;
+    }
+    .game-intro h1 em { font-style: italic; color: var(--accent); font-weight: 280; }
+    .game-intro p { color: var(--fg-2); font-size: 16px; line-height: 1.55; max-width: 64ch; margin: 0; }
+
+    /* HUD */
+    .game-hud {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: clamp(20px, 3vw, 32px);
+    }
+    @media (max-width: 700px) { .game-hud { grid-template-columns: 1fr; } }
+    .hud-card {
+      padding: 18px 22px;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+    }
+    .hud-card .lbl {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--fg-3);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .hud-card .val {
+      font-family: var(--display); font-weight: 360;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      font-size: clamp(28px, 3.4vw, 42px);
+      letter-spacing: -0.02em; line-height: 1;
+      margin-top: 6px;
+      color: var(--fg);
+    }
+    .hud-card .val em { font-style: italic; color: var(--accent); font-weight: 280; }
+    .hud-card .delta {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--accent);
+      margin-top: 6px;
+    }
+    .hud-card .stars { display: inline-flex; gap: 2px; }
+    .hud-card .stars i { font-style: normal; font-size: 13px; color: var(--accent); }
+    .hud-card .stars i.off { color: var(--fg-3); opacity: 0.4; }
+    .hud-card .bar {
+      height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;
+      margin-top: 12px;
+    }
+    .hud-card .bar > span {
+      display: block; height: 100%; background: var(--accent); border-radius: 2px;
+      transition: width 600ms var(--ease);
+    }
+
+    /* Farm stage */
+    .game-stage-wrap { position: relative; margin-bottom: clamp(20px, 3vw, 32px); border-radius: var(--radius); overflow: hidden; }
+    .game-stage {
+      width: 100%; aspect-ratio: 600 / 360; max-height: 460px;
+      display: block; border: 1px solid var(--hairline); border-radius: var(--radius);
+      background:
+        radial-gradient(70% 50% at 75% 25%, color-mix(in srgb, var(--sun, #E8C26A) 30%, transparent) 0%, transparent 60%),
+        linear-gradient(180deg, color-mix(in srgb, #C8DDB6 60%, var(--bg)) 0%, color-mix(in srgb, #8FB479 75%, var(--bg)) 100%);
+    }
+    html[data-theme="dark"] .game-stage {
+      background:
+        radial-gradient(70% 50% at 75% 25%, color-mix(in srgb, var(--sun, #E8C26A) 18%, transparent) 0%, transparent 60%),
+        linear-gradient(180deg, color-mix(in srgb, #2D5C3A 70%, var(--bg)) 0%, color-mix(in srgb, #1A3D26 70%, var(--bg)) 100%);
+    }
+    .game-stage .farmer, .game-stage .tractor-mini { transition: transform 260ms cubic-bezier(.2,.7,.2,1); }
+    .game-stage .ripple { transform-origin: center; animation: kj-game-ripple 2.2s ease-out infinite; }
+    .game-stage .ripple-2 { animation-delay: -1.1s; }
+    .game-stage .cloud { animation: kj-game-bob 5s ease-in-out infinite; }
+    .game-stage .tractor-wheel { transform-origin: center; animation: kj-game-spin .5s linear infinite; }
+    .game-stage .sun-glow { animation: kj-game-bob 6s ease-in-out infinite; }
+    @keyframes kj-game-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes kj-game-spin { to { transform: rotate(360deg); } }
+    @keyframes kj-game-ripple { 0% { transform: scale(0.6); opacity: 0.7; } 100% { transform: scale(1.6); opacity: 0; } }
+
+    .game-hint {
+      position: absolute; left: 50%; bottom: 14px;
+      transform: translateX(-50%);
+      background: color-mix(in srgb, var(--bg-3) 90%, transparent);
+      color: var(--fg);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 999px;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      pointer-events: none;
+      transition: opacity 200ms;
+      white-space: nowrap;
+    }
+    .game-hint.empty { opacity: 0; }
+
+    /* Tractor + irrigation interactive cues */
+    #tractor-mini.clickable, #sensors-mini.clickable { cursor: pointer; transition: filter 220ms, transform 220ms; }
+    #tractor-mini.clickable:hover, #sensors-mini.clickable:hover {
+      filter: drop-shadow(0 0 8px var(--accent)) brightness(1.05);
+      transform: translateY(-2px);
+    }
+    #tractor-mini.cooldown, #sensors-mini.cooldown { filter: grayscale(0.7) opacity(0.55); pointer-events: none; }
+
+    /* Stage pop */
+    .stage-pop {
+      position: absolute; pointer-events: none;
+      font-family: var(--mono); font-size: 11px; font-weight: 600;
+      background: color-mix(in srgb, var(--bg-3) 94%, transparent);
+      color: var(--accent);
+      padding: 4px 10px; border-radius: 999px;
+      box-shadow: 0 8px 18px -10px rgba(0,0,0,0.25);
+      animation: kj-game-pop 1100ms cubic-bezier(.2,.7,.2,1) forwards;
+      z-index: 30;
+      backdrop-filter: blur(6px);
+    }
+    .stage-pop--info { color: var(--accent); }
+    .stage-pop--ai { color: var(--rust, #C56A3A); }
+    @keyframes kj-game-pop {
+      0% { opacity: 1; transform: translate(-50%, 0); }
+      100% { opacity: 0; transform: translate(-50%, -38px); }
+    }
+    .float-ghost {
+      position: absolute; left: 50%; top: -8px;
+      transform: translate(-50%, 0);
+      pointer-events: none;
+      font-family: var(--mono); font-size: 13px; font-weight: 600;
+      color: var(--accent);
+      background: color-mix(in srgb, var(--bg-3) 94%, transparent);
+      padding: 4px 10px; border-radius: 999px;
+      box-shadow: 0 8px 18px -10px rgba(0,0,0,0.25);
+      animation: kj-game-pop 900ms cubic-bezier(.2,.7,.2,1) forwards;
+      z-index: 50;
+    }
+
+    /* D-pad */
+    .game-controls {
+      display: grid; grid-template-columns: auto 1fr; gap: clamp(16px, 3vw, 32px);
+      align-items: start;
+      margin-bottom: clamp(20px, 3vw, 32px);
+    }
+    @media (max-width: 700px) { .game-controls { grid-template-columns: 1fr; } }
+
+    .dpad {
+      display: grid;
+      grid-template-columns: 56px 56px 56px;
+      grid-template-rows: 56px 56px 56px;
+      gap: 6px;
+      width: 180px;
+      user-select: none;
+      touch-action: manipulation;
+      justify-self: center;
+    }
+    .dpad button {
+      background: var(--bg-2); color: var(--fg);
+      border: 1px solid var(--hairline-strong);
+      border-radius: 14px;
+      font-size: 22px; font-weight: 700;
+      box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--fg) 8%, transparent), 0 10px 18px -10px rgba(0,0,0,0.25);
+      transition: transform 100ms, background 200ms, color 200ms;
+      display: grid; place-items: center;
+    }
+    .dpad button:hover { background: var(--bg-3); color: var(--accent); }
+    .dpad button:active { transform: translateY(2px); }
+    .dpad .d-up    { grid-column: 2; grid-row: 1; }
+    .dpad .d-left  { grid-column: 1; grid-row: 2; }
+    .dpad .d-act   { grid-column: 2; grid-row: 2; background: var(--accent); color: var(--accent-fg); font-size: 13px; font-weight: 700; letter-spacing: 0.05em; }
+    .dpad .d-act:hover { background: var(--accent); color: var(--accent-fg); filter: brightness(1.1); }
+    .dpad .d-right { grid-column: 3; grid-row: 2; }
+    .dpad .d-down  { grid-column: 2; grid-row: 3; }
+    .dpad-help { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--fg-3); text-transform: uppercase; text-align: center; margin-top: 10px; }
+
+    .resources-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 540px) { .resources-grid { grid-template-columns: repeat(3, 1fr); } }
+    .resource-card {
+      padding: 18px 14px; text-align: center;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius); background: var(--bg-2);
+      position: relative; overflow: visible;
+    }
+    .resource-card .ico { font-size: 28px; line-height: 1; }
+    .resource-card .lbl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; color: var(--fg-3); text-transform: uppercase; margin-top: 6px; }
+    .resource-card .val {
+      font-family: var(--display); font-weight: 360;
+      font-variation-settings: "opsz" 144;
+      font-size: clamp(22px, 3vw, 32px); margin-top: 4px;
+      color: var(--fg); line-height: 1;
+    }
+
+    /* Action buttons */
+    .game-actions {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin-bottom: clamp(20px, 3vw, 32px);
+    }
+    @media (max-width: 540px) { .game-actions { grid-template-columns: repeat(2, 1fr); } }
+    .btn-action {
+      position: relative; overflow: visible;
+      padding: 16px 14px;
+      border: 1px solid var(--hairline-strong); border-radius: var(--radius);
+      background: var(--bg-2); color: var(--fg);
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+      transition: all 200ms;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-action:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .btn-action.is-disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-action--sell {
+      background: var(--accent); color: var(--accent-fg); border-color: var(--accent);
+    }
+    .btn-action--sell:hover {
+      background: var(--accent); color: var(--accent-fg); filter: brightness(1.1);
+      box-shadow: 0 18px 36px -16px var(--accent);
+    }
+    .btn-action--sell.is-disabled { background: var(--bg-2); color: var(--fg-3); border-color: var(--hairline); }
+
+    /* Profit panel — uses brand vars */
+    .profit-panel {
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+      padding: clamp(20px, 3vw, 32px);
+      margin-bottom: clamp(20px, 3vw, 32px);
+    }
+    .profit-panel__head {
+      display: grid; grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px; align-items: center;
+      padding-bottom: 24px; border-bottom: 1px solid var(--hairline);
+      margin-bottom: 24px;
+    }
+    @media (max-width: 720px) { .profit-panel__head { grid-template-columns: 1fr; gap: 16px; } }
+    .profit-panel__eyebrow {
+      font-family: var(--mono); font-size: 10px; color: var(--accent);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+    }
+    .profit-panel__eyebrow span:first-child { width: 28px; height: 1px; background: var(--accent); display: inline-block; }
+    .profit-panel__title {
+      font-family: var(--display); font-weight: 380;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.1; margin: 0; color: var(--fg);
+      letter-spacing: -0.015em;
+    }
+    .profit-panel__title em { font-style: italic; color: var(--accent); font-weight: 320; }
+    .profit-panel__hero {
+      display: grid; grid-template-columns: 1fr; gap: 6px;
+      padding: 18px 22px;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--hairline));
+      border-radius: 16px;
+      background: color-mix(in srgb, var(--accent) 8%, var(--bg-2));
+    }
+    .profit-panel__mult-label, .profit-panel__next-label {
+      font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--fg-3);
+    }
+    .profit-panel__mult {
+      font-family: var(--display); font-size: clamp(36px, 4.5vw, 50px);
+      font-weight: 360; line-height: 1; color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .profit-panel__next {
+      font-family: var(--display); font-size: clamp(22px, 2.6vw, 30px);
+      font-weight: 360; color: var(--fg); letter-spacing: -0.015em;
+    }
+    .profit-panel__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 880px) { .profit-panel__grid { grid-template-columns: 1fr; gap: 16px; } }
+    .profit-panel__col h4 {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--fg-3); margin: 0 0 12px; font-weight: 500;
+    }
+    .profit-parts { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+    .profit-parts li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px dashed var(--hairline);
+      font-size: 14px; color: var(--fg-2);
+    }
+    .profit-parts li:last-child { border-bottom: 0; }
+    .profit-parts li b {
+      font-family: var(--mono); color: var(--accent); font-weight: 600;
+      font-size: 13px; letter-spacing: 0.04em;
+    }
+    .profit-stats { margin: 0; display: grid; gap: 0; }
+    .profit-stats div {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 10px 0; border-bottom: 1px dashed var(--hairline);
+    }
+    .profit-stats div:last-child { border-bottom: 0; }
+    .profit-stats dt { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--fg-2); }
+    .profit-stats dd { font-family: var(--display); font-size: 17px; font-weight: 380; color: var(--fg); margin: 0; }
+    .profit-panel__hint ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 13px; color: var(--fg-2); line-height: 1.5; }
+    .profit-panel__hint li { padding-left: 14px; position: relative; }
+    .profit-panel__hint li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 1px; background: var(--accent); }
+    .profit-panel__hint b { color: var(--accent); font-weight: 600; }
+
+    /* Upgrade shop */
+    .game-section { margin-bottom: clamp(28px, 4vw, 48px); }
+    .game-section__head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 18px;
+    }
+    .game-section__eyebrow {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--accent);
+      text-transform: uppercase; display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+    }
+    .game-section__eyebrow span:first-child { width: 28px; height: 1px; background: var(--accent); display: inline-block; }
+    .game-section__title {
+      font-family: var(--display); font-size: clamp(22px, 2.8vw, 32px);
+      font-weight: 380; font-variation-settings: "opsz" 144, "SOFT" 40;
+      letter-spacing: -0.02em; margin: 0; color: var(--fg);
+    }
+    .game-section__title em { font-style: italic; color: var(--accent); font-weight: 320; }
+
+    .upgrade-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+    @media (max-width: 880px) { .upgrade-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .upgrade-grid { grid-template-columns: 1fr; } }
+
+    .upgrade-card {
+      position: relative;
+      padding: 22px;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+      transition: all 280ms var(--ease);
+    }
+    .upgrade-card:hover { transform: translateY(-3px); border-color: var(--hairline-strong); }
+    .upgrade-card .ico { font-size: 28px; line-height: 1; }
+    .upgrade-card .upgrade-tick {
+      display: none; position: absolute; top: 16px; right: 16px;
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .upgrade-card h3 {
+      font-family: var(--display); font-size: 19px; font-weight: 380;
+      font-variation-settings: "opsz" 60;
+      margin: 14px 0 6px; line-height: 1.2; color: var(--fg);
+      letter-spacing: -0.01em;
+    }
+    .upgrade-card p {
+      font-size: 13px; line-height: 1.5; color: var(--fg-2);
+      margin: 0; max-width: 36ch;
+    }
+    .upgrade-card .meta {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--fg-3);
+      text-transform: uppercase; margin-top: 14px;
+    }
+    .upgrade-card .buy {
+      width: 100%; margin-top: 14px;
+      padding: 12px 16px;
+      background: var(--accent); color: var(--accent-fg);
+      border-radius: 10px; border: 0;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+      cursor: pointer;
+      transition: all 200ms;
+    }
+    .upgrade-card .buy:hover:not(:disabled) { filter: brightness(1.08); transform: translateY(-1px); }
+    .upgrade-card .buy:disabled {
+      background: var(--bg-3); color: var(--fg-3); cursor: not-allowed;
+      border: 1px solid var(--hairline);
+    }
+    .upgrade-card.upgrade--owned {
+      background: color-mix(in srgb, var(--accent) 10%, var(--bg-2));
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent) inset, 0 18px 40px -16px var(--accent-soft, color-mix(in srgb, var(--accent) 30%, transparent));
+    }
+    .upgrade-card.upgrade--owned .upgrade-tick { display: inline-flex; }
+    .upgrade-card.upgrade--locked { opacity: 0.5; pointer-events: none; }
+
+    /* Win box */
+    .win-box {
+      display: none;
+      flex-direction: column;
+      align-items: center; gap: 18px;
+      padding: clamp(24px, 4vw, 40px);
+      border-radius: var(--radius-lg);
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 14%, var(--bg-2)) 0%,
+        var(--bg-2) 50%,
+        color-mix(in srgb, var(--accent) 18%, var(--bg-2)) 100%);
+      text-align: center;
+      margin-bottom: clamp(28px, 4vw, 48px);
+    }
+    @media (min-width: 720px) { .win-box { flex-direction: row; justify-content: space-between; text-align: left; } }
+    .win-box.win-shown { display: flex; }
+    .win-box .eyebrow {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .win-box h2 {
+      font-family: var(--display); font-size: clamp(28px, 4vw, 44px);
+      font-weight: 360; font-variation-settings: "opsz" 144, "SOFT" 30;
+      letter-spacing: -0.025em; line-height: 1; margin: 0;
+      color: var(--fg);
+    }
+    .win-box h2 em { font-style: italic; color: var(--accent); font-weight: 280; }
+    .win-box p { color: var(--fg-2); margin: 12px 0 0; max-width: 56ch; font-size: 14px; line-height: 1.5; }
+
+    /* Instructions */
+    .game-help {
+      padding: clamp(24px, 4vw, 32px);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      background: var(--bg-2);
+    }
+    .game-help h3 {
+      font-family: var(--display); font-size: clamp(22px, 2.6vw, 28px);
+      font-weight: 380; margin: 0 0 16px; color: var(--fg);
+      letter-spacing: -0.015em;
+    }
+    .game-help ol {
+      display: grid; gap: 8px;
+      list-style-position: inside;
+      font-size: 14px; color: var(--fg-2); line-height: 1.55;
+      margin: 0; padding: 0;
+    }
+    @media (min-width: 720px) { .game-help ol { grid-template-columns: 1fr 1fr; gap: 8px 32px; } }
+    .game-help ol li b { color: var(--fg); font-weight: 600; }
+
+    /* Game-page nav (replaces tailwind-styled header) */
+    .game-nav-cta {
+      padding: 9px 14px; border-radius: 999px;
+      font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--fg);
+      border: 1px solid var(--hairline-strong);
+      transition: all 200ms;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .game-nav-cta:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* press anim */
+    @keyframes kj-game-press { 0% { transform: scale(1); } 50% { transform: scale(.94); } 100% { transform: scale(1); } }
+    .animate-press { animation: kj-game-press 220ms cubic-bezier(.2,.7,.2,1); }
+    @keyframes kj-game-glow { 0% { box-shadow: 0 0 0 0 var(--accent); } 100% { box-shadow: 0 0 0 40px transparent; } }
+    .animate-glow { animation: kj-game-glow 1.6s ease-out; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-press, .animate-glow, .game-stage *, .stage-pop, .float-ghost { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─────────── NAV (shared markup style) -->
+  <header class="nav" id="nav">
+    <a href="/showcase/" class="nav__brand" aria-label="KijaniLab">
+      <img src="/showcase/assets/logo-green-black-leaf.svg" alt="" data-logo />
+      <div>
+        <span class="nav__brand-text">KijaniLab</span>
+        <span class="nav__brand-suffix" style="color: var(--accent);">/ Mini-jeu</span>
+      </div>
+    </a>
+    <nav class="nav__menu" aria-label="Sections">
+      <a href="/fr#services" data-fr="Services" data-en="Services">Services</a>
+      <a href="/fr/projets" data-fr="Projets" data-en="Projects">Projets</a>
+      <a href="/fr#atlas" data-fr="Atlas" data-en="Atlas">Atlas</a>
+      <a href="/fr/jeu" aria-current="page" data-fr="Jeu" data-en="Game">Jeu</a>
+      <a href="/fr/contact" data-fr="Contact" data-en="Contact">Contact</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__lang" role="group" aria-label="Langue">
+        <button data-lang="fr" aria-current="true">FR</button>
+        <span style="color: var(--fg-3); padding: 0 2px;">/</span>
+        <button data-lang="en" aria-current="false">EN</button>
+      </div>
+      <button class="nav__theme" id="theme-toggle" aria-label="Basculer thème">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>
+        </svg>
+      </button>
+      <button id="btn-sound" class="game-nav-cta" type="button" aria-label="Son">SOUND ON</button>
+      <button id="btn-reset" class="game-nav-cta" type="button" aria-label="Reset">↺</button>
+    </div>
+  </header>
+
+  <main class="game-shell">
+
+    <!-- ─────────── intro -->
+    <section class="game-intro">
+      <div class="game-section__eyebrow"><span></span><span data-fr="Simulation pédagogique · 7 niveaux" data-en="Pedagogical simulation · 7 levels">Simulation pédagogique · 7 niveaux</span></div>
+      <h1 data-fr-html="Du <em>champ</em> à la <em>Smart Farm</em>." data-en-html="From <em>field</em> to <em>Smart Farm</em>.">Du <em>champ</em> à la <em>Smart Farm</em>.</h1>
+      <p data-fr="Guidez le fermier, récoltez, achetez un tracteur, un drone, des capteurs, une IA. Voyez votre ferme passer du clic manuel à la production autonome — l'image condensée de chaque transformation digitale agritech." data-en="Guide the farmer, harvest, buy a tractor, drone, sensors, AI. Watch your farm shift from manual clicks to autonomous production — the condensed image of any agritech digital transformation.">
+        Guidez le fermier, récoltez, achetez un tracteur, un drone, des capteurs, une IA. Voyez votre ferme passer du clic manuel à la production autonome — l'image condensée de chaque transformation digitale agritech.
+      </p>
+    </section>
+
+    <!-- ─────────── HUD -->
+    <section class="game-hud">
+      <div class="hud-card">
+        <div class="lbl"><span data-fr="Trésorerie" data-en="Treasury">Trésorerie</span></div>
+        <div class="val" id="money">0 FCFA</div>
+      </div>
+      <div class="hud-card">
+        <div class="lbl"><span data-fr="🏆 Niveau" data-en="🏆 Level">🏆 Niveau</span><span class="stars" id="stars"></span></div>
+        <div class="val"><span id="level-num">1</span> <em id="level-label" style="font-size: 17px;">Démarrage</em></div>
+      </div>
+      <div class="hud-card">
+        <div class="lbl"><span data-fr="📊 Niveau digital" data-en="📊 Digital level">📊 Niveau digital</span><span id="digital-level">0%</span></div>
+        <div class="bar"><span id="digital-bar" style="width: 0%"></span></div>
+      </div>
+    </section>
+
+    <!-- ─────────── farm stage -->
+    <section class="game-stage-wrap" id="stage-wrap">
+      <svg id="farm-stage" class="game-stage" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" aria-label="Ferme">
+        <defs>
+          <linearGradient id="fieldGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#967049"/><stop offset="100%" stop-color="#7C5A3A"/>
+          </linearGradient>
+          <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#A8C68A"/><stop offset="100%" stop-color="#7DA86A"/>
+          </linearGradient>
+          <radialGradient id="sunGrad">
+            <stop offset="0%" stop-color="#FBE3A4"/><stop offset="60%" stop-color="#E8C26A"/><stop offset="100%" stop-color="#E8C26A" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="pondGrad" cx="0.35" cy="0.4">
+            <stop offset="0%" stop-color="#9EC9DD"/><stop offset="100%" stop-color="#5A8FAB"/>
+          </radialGradient>
+          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#000" stroke-width="0.5" opacity="0.08"/>
+          </pattern>
+          <symbol id="plant" viewBox="0 0 30 38">
+            <rect x="13" y="22" width="4" height="14" fill="#3A6E2A"/>
+            <ellipse cx="11" cy="20" rx="6" ry="4" fill="#5BA046"/>
+            <ellipse cx="20" cy="18" rx="6" ry="4" fill="#5BA046"/>
+            <ellipse cx="15" cy="14" rx="7" ry="5" fill="#7BC066"/>
+            <circle cx="14" cy="12" r="1.6" fill="#C56A3A"/>
+            <circle cx="19" cy="14" r="1.4" fill="#C56A3A"/>
+          </symbol>
+          <symbol id="cow" viewBox="0 0 60 40">
+            <ellipse cx="30" cy="24" rx="20" ry="11" fill="#F4EFE0"/>
+            <ellipse cx="22" cy="22" rx="5" ry="3" fill="#1F2A22"/>
+            <ellipse cx="38" cy="26" rx="4" ry="2.5" fill="#1F2A22"/>
+            <ellipse cx="44" cy="20" rx="3" ry="2" fill="#1F2A22"/>
+            <rect x="16" y="32" width="2.5" height="6" fill="#1F2A22"/>
+            <rect x="22" y="32" width="2.5" height="6" fill="#1F2A22"/>
+            <rect x="36" y="32" width="2.5" height="6" fill="#1F2A22"/>
+            <rect x="42" y="32" width="2.5" height="6" fill="#1F2A22"/>
+            <ellipse cx="52" cy="18" rx="7" ry="6" fill="#F4EFE0"/>
+            <ellipse cx="54" cy="20" rx="2.5" ry="1.6" fill="#E8B59E"/>
+            <circle cx="50" cy="16" r="0.7" fill="#1F2A22"/>
+            <circle cx="56" cy="17" r="0.7" fill="#1F2A22"/>
+          </symbol>
+          <symbol id="goat" viewBox="0 0 50 36">
+            <ellipse cx="22" cy="20" rx="14" ry="8" fill="#E8DFC8"/>
+            <rect x="13" y="26" width="2" height="7" fill="#3D2D1E"/>
+            <rect x="19" y="26" width="2" height="7" fill="#3D2D1E"/>
+            <rect x="27" y="26" width="2" height="7" fill="#3D2D1E"/>
+            <rect x="33" y="26" width="2" height="7" fill="#3D2D1E"/>
+            <ellipse cx="42" cy="14" rx="6" ry="5" fill="#E8DFC8"/>
+            <path d="M38 9 Q 36 4 41 4" stroke="#3D2D1E" stroke-width="1.2" fill="none"/>
+            <circle cx="40" cy="13" r="0.7" fill="#1F2A22"/>
+            <circle cx="44" cy="13" r="0.7" fill="#1F2A22"/>
+          </symbol>
+          <symbol id="chicken" viewBox="0 0 36 30">
+            <ellipse cx="18" cy="20" rx="11" ry="8" fill="#F4EFE0"/>
+            <circle cx="26" cy="14" r="6" fill="#F4EFE0"/>
+            <path d="M25 8 Q 27 4 30 9 Z" fill="#C56A3A"/>
+            <circle cx="27" cy="13" r="0.8" fill="#1F2A22"/>
+            <path d="M30 15 L 34 15.5 L 30 16.5" fill="#E8C26A"/>
+            <rect x="14" y="26" width="1.5" height="4" fill="#E8C26A"/>
+            <rect x="18" y="26" width="1.5" height="4" fill="#E8C26A"/>
+          </symbol>
+          <symbol id="fish" viewBox="0 0 36 18">
+            <ellipse cx="14" cy="9" rx="11" ry="6" fill="#5A8FAB"/>
+            <path d="M25 9 L 34 3 L 34 15 Z" fill="#5A8FAB"/>
+            <circle cx="9" cy="7" r="1" fill="#F4EFE0"/>
+          </symbol>
+          <symbol id="tree" viewBox="0 0 30 50">
+            <rect x="13" y="32" width="4" height="18" fill="#5A3D26"/>
+            <ellipse cx="15" cy="22" rx="14" ry="14" fill="#3A6E2A"/>
+            <ellipse cx="11" cy="18" rx="8" ry="8" fill="#5BA046"/>
+            <ellipse cx="20" cy="15" rx="7" ry="7" fill="#5BA046"/>
+          </symbol>
+          <symbol id="fence" viewBox="0 0 40 14">
+            <rect x="0" y="6" width="40" height="2" fill="#7C5A3A"/>
+            <rect x="0" y="10" width="40" height="2" fill="#7C5A3A"/>
+            <rect x="6" y="0" width="2" height="14" fill="#5A3D26"/>
+            <rect x="22" y="0" width="2" height="14" fill="#5A3D26"/>
+            <rect x="36" y="0" width="2" height="14" fill="#5A3D26"/>
+          </symbol>
+        </defs>
+
+        <circle cx="510" cy="50" r="42" fill="url(#sunGrad)" class="sun-glow"/>
+        <circle cx="510" cy="50" r="20" fill="#FBE3A4"/>
+        <ellipse class="cloud" cx="120" cy="36" rx="22" ry="10" fill="white" opacity="0.85"/>
+        <ellipse class="cloud" cx="290" cy="20" rx="18" ry="8" fill="white" opacity="0.7" style="animation-delay: -2s"/>
+
+        <rect x="320" y="50" width="245" height="120" rx="8" fill="url(#grassGrad)"/>
+        <rect x="320" y="50" width="245" height="120" rx="8" fill="url(#hatch)"/>
+        <use href="#fence" x="320" y="46"/><use href="#fence" x="360" y="46"/><use href="#fence" x="400" y="46"/>
+        <use href="#fence" x="440" y="46"/><use href="#fence" x="480" y="46"/><use href="#fence" x="520" y="46"/>
+
+        <use id="animal-cow-1" href="#cow" x="340" y="80" style="display:none"/>
+        <use id="animal-goat-1" href="#goat" x="430" y="100" style="display:none"/>
+        <use id="animal-chicken-1" href="#chicken" x="500" y="130" style="display:none"/>
+        <use id="animal-goat-2" href="#goat" x="380" y="120" style="display:none"/>
+        <use id="animal-cow-2" href="#cow" x="470" y="90" style="display:none"/>
+
+        <rect x="40" y="50" width="245" height="150" rx="8" fill="url(#fieldGrad)"/>
+        <line x1="40" y1="80" x2="285" y2="80" stroke="#000" stroke-width="0.5" opacity="0.18"/>
+        <line x1="40" y1="120" x2="285" y2="120" stroke="#000" stroke-width="0.5" opacity="0.18"/>
+        <line x1="40" y1="160" x2="285" y2="160" stroke="#000" stroke-width="0.5" opacity="0.18"/>
+        <g id="plants">
+          <use href="#plant" x="55"  y="55"  width="30" height="38"/>
+          <use href="#plant" x="100" y="55"  width="30" height="38"/>
+          <use href="#plant" x="145" y="55"  width="30" height="38"/>
+          <use href="#plant" x="190" y="55"  width="30" height="38"/>
+          <use href="#plant" x="235" y="55"  width="30" height="38"/>
+          <use href="#plant" x="55"  y="98"  width="30" height="38"/>
+          <use href="#plant" x="100" y="98"  width="30" height="38"/>
+          <use href="#plant" x="145" y="98"  width="30" height="38"/>
+          <use href="#plant" x="190" y="98"  width="30" height="38"/>
+          <use href="#plant" x="235" y="98"  width="30" height="38"/>
+          <use href="#plant" x="55"  y="142" width="30" height="38"/>
+          <use href="#plant" x="100" y="142" width="30" height="38"/>
+          <use href="#plant" x="145" y="142" width="30" height="38"/>
+          <use href="#plant" x="190" y="142" width="30" height="38"/>
+          <use href="#plant" x="235" y="142" width="30" height="38"/>
+        </g>
+
+        <ellipse cx="445" cy="270" rx="120" ry="55" fill="url(#pondGrad)"/>
+        <ellipse class="ripple" cx="425" cy="265" rx="14" ry="4" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+        <ellipse class="ripple ripple-2" cx="475" cy="285" rx="12" ry="3.5" fill="none" stroke="white" stroke-width="1.5" opacity="0.6"/>
+        <use id="pond-fish-1" href="#fish" x="395" y="262" width="36" height="18" style="display:none"/>
+        <use id="pond-fish-2" href="#fish" x="465" y="282" width="30" height="14" style="display:none"/>
+        <use id="pond-fish-3" href="#fish" x="420" y="290" width="28" height="14" style="display:none"/>
+        <ellipse cx="445" cy="270" rx="120" ry="55" fill="none" stroke="#3A6E2A" stroke-width="1.5" opacity="0.4"/>
+
+        <use href="#tree" x="6" y="280" width="34" height="56"/>
+        <use href="#tree" x="280" y="290" width="30" height="50"/>
+
+        <path d="M 50 220 C 100 215, 200 240, 300 220 S 480 235, 565 215" stroke="#9C7E5C" stroke-width="22" fill="none" stroke-linecap="round" opacity="0.85"/>
+        <path d="M 50 220 C 100 215, 200 240, 300 220 S 480 235, 565 215" stroke="#7C5A3A" stroke-width="22" fill="none" stroke-linecap="round" stroke-dasharray="2 6" opacity="0.4"/>
+
+        <!-- Tractor (clickable when bought) -->
+        <g id="tractor-mini" transform="translate(60, 100)" style="display: none;">
+          <g transform="scale(0.6)">
+            <rect x="0" y="14" width="64" height="20" rx="3" fill="#43AA8B"/>
+            <rect x="10" y="0" width="30" height="22" rx="2" fill="#0F1B16"/>
+            <rect x="14" y="4" width="22" height="14" rx="1" fill="#9EC9DD" opacity="0.85"/>
+            <rect x="40" y="20" width="22" height="14" rx="2" fill="#43AA8B"/>
+            <circle cx="56" cy="28" r="2" fill="#E8C26A"/>
+            <g class="tractor-wheel" style="transform-origin: 12px 38px;">
+              <circle cx="12" cy="38" r="10" fill="#0A1410" stroke="#E8DFC8" stroke-width="1"/>
+              <circle cx="12" cy="38" r="3" fill="#E8DFC8"/>
+            </g>
+            <g class="tractor-wheel" style="transform-origin: 52px 40px;">
+              <circle cx="52" cy="40" r="7" fill="#0A1410" stroke="#E8DFC8" stroke-width="0.8"/>
+              <circle cx="52" cy="40" r="2" fill="#E8DFC8"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- Drone (visible when bought) -->
+        <g id="drone-mini" transform="translate(300, 80)" style="display: none;">
+          <g class="cloud" style="animation-duration: 3s;">
+            <ellipse cx="-10" cy="0" rx="8" ry="1.5" fill="#43AA8B" opacity="0.6"/>
+            <ellipse cx="10" cy="0" rx="8" ry="1.5" fill="#43AA8B" opacity="0.6"/>
+            <rect x="-6" y="-3" width="12" height="6" rx="2" fill="#0F1B16"/>
+            <circle cx="0" cy="0" r="2" fill="#43AA8B"/>
+          </g>
+        </g>
+
+        <!-- Sensors / irrigation (clickable when bought) -->
+        <g id="sensors-mini" style="display: none;">
+          <g transform="translate(70, 175)">
+            <rect x="-2" y="0" width="4" height="14" fill="#0F1B16"/>
+            <circle cx="0" cy="-2" r="3" fill="#43AA8B"/>
+            <circle cx="0" cy="-2" r="6" fill="#43AA8B" opacity="0.3" class="sun-glow"/>
+          </g>
+          <g transform="translate(160, 175)">
+            <rect x="-2" y="0" width="4" height="14" fill="#0F1B16"/>
+            <circle cx="0" cy="-2" r="3" fill="#43AA8B"/>
+          </g>
+          <g transform="translate(250, 175)">
+            <rect x="-2" y="0" width="4" height="14" fill="#0F1B16"/>
+            <circle cx="0" cy="-2" r="3" fill="#43AA8B"/>
+          </g>
+        </g>
+
+        <!-- AI hub -->
+        <g id="ai-mini" transform="translate(320, 200)" style="display: none;">
+          <rect x="-3" y="0" width="6" height="22" fill="#0F1B16"/>
+          <circle cx="0" cy="-2" r="4" fill="#43AA8B"/>
+          <text x="-12" y="-12" font-family="JetBrains Mono" font-size="7" fill="#43AA8B" letter-spacing="0.1em">AI</text>
+        </g>
+
+        <!-- Farmer -->
+        <g id="farmer" transform="translate(100, 230)">
+          <ellipse cx="0" cy="22" rx="10" ry="3" fill="rgba(0,0,0,0.25)"/>
+          <rect x="-5" y="8" width="4" height="14" rx="1" fill="#3D2D1E"/>
+          <rect x="1"  y="8" width="4" height="14" rx="1" fill="#3D2D1E"/>
+          <rect x="-7" y="-6" width="14" height="16" rx="3" fill="#43AA8B"/>
+          <rect x="-9" y="-4" width="3" height="9" rx="1.5" fill="#43AA8B"/>
+          <rect x="6"  y="-4" width="3" height="9" rx="1.5" fill="#43AA8B"/>
+          <circle cx="0" cy="-13" r="6" fill="#E8B98A"/>
+          <ellipse cx="0" cy="-18" rx="9" ry="2" fill="#7C5A3A"/>
+          <rect x="-4" y="-22" width="8" height="5" rx="1.5" fill="#7C5A3A"/>
+          <rect x="-4" y="-19" width="8" height="1" fill="#43AA8B"/>
+          <circle cx="-2" cy="-13" r="0.7" fill="#1F2A22"/>
+          <circle cx="2"  cy="-13" r="0.7" fill="#1F2A22"/>
+        </g>
+      </svg>
+      <div class="game-hint empty" id="hint" data-fr="Avancez sur une zone" data-en="Move onto a zone">Avancez sur une zone</div>
+    </section>
+
+    <!-- ─────────── controls -->
+    <section class="game-controls">
+      <div>
+        <div class="dpad" role="group" aria-label="Déplacement">
+          <button class="d-up"    aria-label="Haut"   data-dir="up">↑</button>
+          <button class="d-left"  aria-label="Gauche" data-dir="left">←</button>
+          <button class="d-act"   aria-label="Action" id="d-act">ACT</button>
+          <button class="d-right" aria-label="Droite" data-dir="right">→</button>
+          <button class="d-down"  aria-label="Bas"    data-dir="down">↓</button>
+        </div>
+        <p class="dpad-help" data-fr="Clavier · ← ↑ → ↓ · Espace" data-en="Keyboard · ← ↑ → ↓ · Space">Clavier · ← ↑ → ↓ · Espace</p>
+      </div>
+
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="ico">🌱</div>
+          <div class="lbl" data-fr="Cultures" data-en="Crops">Cultures</div>
+          <div class="val" id="crops">0</div>
+        </div>
+        <div class="resource-card">
+          <div class="ico">🐄</div>
+          <div class="lbl" data-fr="Animaux" data-en="Animals">Animaux</div>
+          <div class="val" id="animals">0</div>
+        </div>
+        <div class="resource-card">
+          <div class="ico">🎣</div>
+          <div class="lbl" data-fr="Poissons" data-en="Fish">Poissons</div>
+          <div class="val" id="fish">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── action buttons -->
+    <section class="game-actions">
+      <button class="btn-action" id="btn-crops">🌱 <span data-fr="Cultiver" data-en="Grow">Cultiver</span></button>
+      <button class="btn-action" id="btn-animals">🐄 <span data-fr="Élever" data-en="Raise">Élever</span></button>
+      <button class="btn-action" id="btn-fish">🎣 <span data-fr="Pêcher" data-en="Fish">Pêcher</span></button>
+      <button class="btn-action btn-action--sell" id="btn-sell">💰 <span data-fr="Vendre" data-en="Sell">Vendre</span></button>
+    </section>
+
+    <!-- ─────────── PROFIT BREAKDOWN -->
+    <section class="profit-panel">
+      <div class="profit-panel__head">
+        <div>
+          <div class="profit-panel__eyebrow"><span></span><span data-fr="Bénéfices · décomposition de la prochaine vente" data-en="Profits · breakdown of next sale">Bénéfices · décomposition de la prochaine vente</span></div>
+          <h2 class="profit-panel__title" data-fr-html="Qu'est-ce que vous <em>vendez</em>, et combien ça <em>rapporte</em> ?" data-en-html="What are you <em>selling</em>, and how much does it <em>pay</em>?">Qu'est-ce que vous <em>vendez</em>, et combien ça <em>rapporte</em> ?</h2>
+        </div>
+        <div class="profit-panel__hero">
+          <span class="profit-panel__mult-label" data-fr="Multiplicateur actif" data-en="Active multiplier">Multiplicateur actif</span>
+          <span class="profit-panel__mult" id="profit-multiplier">×1</span>
+          <span class="profit-panel__next-label" data-fr="Vente actuelle" data-en="Current sale">Vente actuelle</span>
+          <span class="profit-panel__next" id="profit-next">—</span>
+        </div>
+      </div>
+      <div class="profit-panel__grid">
+        <div class="profit-panel__col">
+          <h4 data-fr="Décomposition du prix" data-en="Price breakdown">Décomposition du prix</h4>
+          <ul id="profit-parts" class="profit-parts">
+            <li><span data-fr="Base" data-en="Base">Base</span><b>×1</b></li>
+          </ul>
+        </div>
+        <div class="profit-panel__col">
+          <h4 data-fr="Indicateurs" data-en="Indicators">Indicateurs</h4>
+          <dl class="profit-stats">
+            <div><dt data-fr="Total encaissé" data-en="Total earned">Total encaissé</dt><dd id="profit-total">0 FCFA</dd></div>
+            <div><dt data-fr="Ventes effectuées" data-en="Sales count">Ventes effectuées</dt><dd id="profit-sales">0</dd></div>
+            <div><dt data-fr="Bonus irrigation" data-en="Irrigation bonus">Bonus irrigation</dt><dd id="profit-buff">—</dd></div>
+          </dl>
+        </div>
+        <div class="profit-panel__col profit-panel__hint">
+          <h4 data-fr="Astuces" data-en="Tips">Astuces</h4>
+          <ul>
+            <li data-fr-html="<b>🚜 Cliquez le tracteur</b> dans la scène pour récolter <b>+3 cultures</b> instantanément (5 s de recharge)." data-en-html="<b>🚜 Click the tractor</b> in the scene for an instant <b>+3 crops</b> (5s cooldown)."><b>🚜 Cliquez le tracteur</b> dans la scène pour récolter <b>+3 cultures</b> instantanément (5 s de recharge).</li>
+            <li data-fr-html="<b>💧 Cliquez l'irrigation</b> pour ajouter <b>+20%</b> à la prochaine vente (jusqu'à +60%)." data-en-html="<b>💧 Click the irrigation</b> for <b>+20%</b> on the next sale (up to +60%)."><b>💧 Cliquez l'irrigation</b> pour ajouter <b>+20%</b> à la prochaine vente (jusqu'à +60%).</li>
+            <li data-fr="Stockez beaucoup, activez le bonus, puis vendez." data-en="Stockpile, then trigger the buff, then sell.">Stockez beaucoup, activez le bonus, puis vendez.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── upgrade shop -->
+    <section class="game-section">
+      <div class="game-section__head">
+        <div>
+          <div class="game-section__eyebrow"><span></span><span data-fr="Boutique digitale · 6 améliorations" data-en="Digital shop · 6 upgrades">Boutique digitale · 6 améliorations</span></div>
+          <h2 class="game-section__title" data-fr-html="Six paliers vers la <em>Smart Farm</em>" data-en-html="Six tiers to the <em>Smart Farm</em>">Six paliers vers la <em>Smart Farm</em></h2>
+        </div>
+      </div>
+      <div class="upgrade-grid">
+        <div id="card-smartphone" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">📱</div>
+          <h3>1. Smartphone</h3>
+          <p data-fr="Réception des commandes, photos qualité, suivi WhatsApp. ×2 gain à la vente." data-en="Order intake, quality photos, WhatsApp follow-up. ×2 sell.">Réception des commandes, photos qualité, suivi WhatsApp. ×2 gain à la vente.</p>
+          <div class="meta">100 FCFA · ×2 gain</div>
+          <button class="buy" id="btn-smartphone" data-buy="smartphone" data-fr="Acheter — 100 FCFA" data-en="Buy — 100 FCFA">Acheter — 100 FCFA</button>
+        </div>
+        <div id="card-ecommerce" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">💻</div>
+          <h3 data-fr="2. Boutique en ligne" data-en="2. E-commerce">2. Boutique en ligne</h3>
+          <p data-fr="Page produit, paiement direct, marché élargi à la diaspora. ×2 profits." data-en="Product page, direct payment, diaspora reach. ×2 profits.">Page produit, paiement direct, marché élargi à la diaspora. ×2 profits.</p>
+          <div class="meta">250 FCFA · ×2 profits</div>
+          <button class="buy" id="btn-ecommerce" data-buy="ecommerce" data-fr="Acheter — 250 FCFA" data-en="Buy — 250 FCFA">Acheter — 250 FCFA</button>
+        </div>
+        <div id="card-tractor" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">🚜</div>
+          <h3 data-fr="3. Tracteur connecté" data-en="3. Connected tractor">3. Tracteur connecté</h3>
+          <p data-fr="Travaille la parcelle pour vous. +1 culture / 3s automatiquement, et cliquable pour +3 instantanés." data-en="Works the plot for you. +1 crop / 3s automatically, click for instant +3.">Travaille la parcelle pour vous. +1 culture / 3s automatiquement, et cliquable pour +3 instantanés.</p>
+          <div class="meta">500 FCFA · auto + click</div>
+          <button class="buy" id="btn-tractor" data-buy="tractor" data-fr="Acheter — 500 FCFA" data-en="Buy — 500 FCFA">Acheter — 500 FCFA</button>
+        </div>
+        <div id="card-sensors" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">💧</div>
+          <h3 data-fr="4. Irrigation IoT" data-en="4. IoT irrigation">4. Irrigation IoT</h3>
+          <p data-fr="Sondes humidité, vannes connectées. +1 ressource / 4s, et cliquable pour +20% prochaine vente (×3 max)." data-en="Moisture probes, smart valves. +1 resource / 4s, click for +20% next sale (×3 max).">Sondes humidité, vannes connectées. +1 ressource / 4s, et cliquable pour +20% prochaine vente (×3 max).</p>
+          <div class="meta">1 200 FCFA · auto + buff</div>
+          <button class="buy" id="btn-sensors" data-buy="sensors" data-fr="Acheter — 1 200 FCFA" data-en="Buy — 1 200 FCFA">Acheter — 1 200 FCFA</button>
+        </div>
+        <div id="card-drone" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">🛸</div>
+          <h3 data-fr="5. Drone agritech" data-en="5. Agritech drone">5. Drone agritech</h3>
+          <p data-fr="Cartographie, traitement ciblé, repérage des cultures à valoriser. +50% à chaque vente." data-en="Mapping, targeted treatment, value-spotting. +50% on every sale.">Cartographie, traitement ciblé, repérage des cultures à valoriser. +50% à chaque vente.</p>
+          <div class="meta">3 000 FCFA · ×1.5 vente</div>
+          <button class="buy" id="btn-drone" data-buy="drone" data-fr="Acheter — 3 000 FCFA" data-en="Buy — 3 000 FCFA">Acheter — 3 000 FCFA</button>
+        </div>
+        <div id="card-ai" class="upgrade-card">
+          <span class="upgrade-tick">✓ <span data-fr="Acquis" data-en="Owned">Acquis</span></span>
+          <div class="ico">🤖</div>
+          <h3 data-fr="6. Assistant IA" data-en="6. AI assistant">6. Assistant IA</h3>
+          <p data-fr="Vente automatique au bon moment, marges optimisées. Vend toutes les 8s, sans clic." data-en="Auto-sells at the right moment, optimized margins. Sells every 8s, no click.">Vente automatique au bon moment, marges optimisées. Vend toutes les 8s, sans clic.</p>
+          <div class="meta">6 000 FCFA · auto-vente</div>
+          <button class="buy" id="btn-ai" data-buy="ai" data-fr="Acheter — 6 000 FCFA" data-en="Buy — 6 000 FCFA">Acheter — 6 000 FCFA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── win box -->
+    <section id="win-box" class="win-box">
+      <div>
+        <div class="eyebrow" data-fr="Niveau MAX · Smart Farm" data-en="MAX level · Smart Farm">Niveau MAX · Smart Farm</div>
+        <h2 data-fr-html="Votre ferme est <em>autonome</em> 🚀" data-en-html="Your farm is <em>autonomous</em> 🚀">Votre ferme est <em>autonome</em> 🚀</h2>
+        <p data-fr="Tracteur, irrigation, drone, IA et boutique en ligne fonctionnent ensemble. Trésorerie qui grimpe seule. C'est la trajectoire installée chez nos clients agritech, en plus grand." data-en="Tractor, irrigation, drone, AI and e-commerce work together. Treasury self-grows. That's the trajectory we install for our agritech clients, at scale.">Tracteur, irrigation, drone, IA et boutique en ligne fonctionnent ensemble. Trésorerie qui grimpe seule. C'est la trajectoire installée chez nos clients agritech, en plus grand.</p>
+      </div>
+      <a href="/fr/contact" class="game-nav-cta" style="background: var(--accent); color: var(--accent-fg); border-color: var(--accent); padding: 14px 22px; font-size: 11.5px; font-weight: 700;" data-fr="Parler à un expert →" data-en="Talk to an expert →">Parler à un expert →</a>
+    </section>
+
+    <!-- ─────────── help -->
+    <section class="game-help">
+      <div class="game-section__eyebrow"><span></span><span data-fr="Comment jouer · 2-3 minutes" data-en="How to play · 2-3 minutes">Comment jouer · 2-3 minutes</span></div>
+      <h3 data-fr="Sept niveaux jusqu'à la Smart Farm" data-en="Seven levels to the Smart Farm">Sept niveaux jusqu'à la Smart Farm</h3>
+      <ol>
+        <li data-fr-html="<b>Déplacez le fermier</b> avec ← ↑ → ↓ ou le D-pad."><b>Déplacez le fermier</b> avec ← ↑ → ↓ ou le D-pad.</li>
+        <li data-fr-html="Approchez d'une <b>zone</b> (cultures · pâturage · étang) — un panneau s'affiche.">Approchez d'une <b>zone</b> (cultures · pâturage · étang) — un panneau s'affiche.</li>
+        <li data-fr-html="Appuyez sur <b>Action</b> (Espace) ou les boutons rapides 🌱 🐄 🎣.">Appuyez sur <b>Action</b> (Espace) ou les boutons rapides 🌱 🐄 🎣.</li>
+        <li data-fr-html="Quand le stock est plein, appuyez sur <b>💰 Vendre</b>. <b>10 FCFA</b> par ressource.">Quand le stock est plein, appuyez sur <b>💰 Vendre</b>. <b>10 FCFA</b> par ressource.</li>
+        <li data-fr-html="À <b>100 FCFA</b>, le 📱 smartphone (×2). À <b>250</b>, la 💻 boutique (×2 encore).">À <b>100 FCFA</b>, le 📱 smartphone (×2). À <b>250</b>, la 💻 boutique (×2 encore).</li>
+        <li data-fr-html="À <b>500 FCFA</b>, le 🚜 tracteur récolte tout seul. <b>Cliquez-le</b> pour +3 instant.">À <b>500 FCFA</b>, le 🚜 tracteur récolte tout seul. <b>Cliquez-le</b> pour +3 instant.</li>
+        <li data-fr-html="À <b>1 200</b>, l'💧 irrigation produit en passif. <b>Cliquez-la</b> pour +20% prochaine vente.">À <b>1 200</b>, l'💧 irrigation produit en passif. <b>Cliquez-la</b> pour +20% prochaine vente.</li>
+        <li data-fr-html="À <b>3 000</b>, le 🛸 drone ajoute +50% à chaque vente.">À <b>3 000</b>, le 🛸 drone ajoute +50% à chaque vente.</li>
+        <li data-fr-html="À <b>6 000</b>, l'🤖 IA vend automatiquement toutes les 8s.">À <b>6 000</b>, l'🤖 IA vend automatiquement toutes les 8s.</li>
+        <li data-fr="Les six améliorations achetées = Niveau MAX · Smart Farm.">Les six améliorations achetées = Niveau MAX · Smart Farm.</li>
+      </ol>
+    </section>
+
+  </main>
+
+  <button class="to-top" id="to-top" type="button" aria-label="Retour en haut">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"/>
+      <polyline points="5 12 12 5 19 12"/>
+    </svg>
+  </button>
+
+  <script src="/showcase/assets/app.js" defer></script>
+  <script src="/showcase/game/game.js" defer></script>
+</body>
+</html>

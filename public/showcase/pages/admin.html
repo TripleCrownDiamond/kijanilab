@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0A1410" />
+  <title>Administration — KijaniLab</title>
+  <link rel="icon" href="../assets/logo-green-black-leaf.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a href="../index.html" class="nav__brand"><img src="../assets/logo-green-black-leaf.svg" alt="" data-logo-rel /><div><span class="nav__brand-text">KijaniLab</span><span class="nav__brand-suffix" style="color: var(--accent);">/ Admin</span></div></a>
+    <nav class="nav__menu">
+      <a href="admin.html" aria-current="page" data-fr="Administration" data-en="Admin">Administration</a>
+      <a href="#" data-fr="Formations" data-en="Trainings">Formations</a>
+      <a href="#" data-fr="Membres" data-en="Members">Membres</a>
+      <a href="#" data-fr="Sessions" data-en="Sessions">Sessions</a>
+    </nav>
+    <div class="nav__right">
+      <button class="nav__theme" id="theme-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+      <a href="auth.html" class="nav__cta" style="background: transparent; color: var(--fg); border: 1px solid var(--hairline-strong);" data-fr="Déconnexion" data-en="Sign out">Déconnexion</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="dash">
+      <header class="dash__head">
+        <div>
+          <span class="meta" style="color: var(--accent);" data-fr="Rôle · administrateur" data-en="Role · admin">Rôle · administrateur</span>
+          <h1 class="display" style="margin-top: 8px;"><span data-fr="Catalogue " data-en="Training ">Catalogue </span><em data-fr="formations." data-en="catalogue.">formations.</em></h1>
+        </div>
+        <a href="#" class="btn btn--primary"><span data-fr="+ Nouvelle formation" data-en="+ New training">+ Nouvelle formation</span><span class="arrow">→</span></a>
+      </header>
+
+      <div class="dash__grid">
+        <nav class="dash__nav" aria-label="Sections admin">
+          <a href="#" aria-current="true" data-fr="Formations" data-en="Trainings">Formations</a>
+          <a href="#" data-fr="Membres" data-en="Members">Membres</a>
+          <a href="#" data-fr="Demandes de devis" data-en="Quote requests">Demandes de devis</a>
+          <a href="#" data-fr="Articles & contenus" data-en="Articles & content">Articles & contenus</a>
+          <a href="#" data-fr="Statistiques" data-en="Analytics">Statistiques</a>
+          <a href="#" data-fr="Réglages" data-en="Settings">Réglages</a>
+          <a href="#" style="color: var(--rust);" data-fr="Alertes" data-en="Alerts">Alertes</a>
+        </nav>
+
+        <div class="dash__main">
+
+          <div class="dash__cards">
+            <div class="dash-card"><div class="lbl" data-fr="Formations actives" data-en="Live trainings">Formations actives</div><div class="val">6</div><div class="delta" data-fr="100% publiées" data-en="100% published">100% publiées</div></div>
+            <div class="dash-card"><div class="lbl" data-fr="Apprenants" data-en="Learners">Apprenants</div><div class="val">217</div><div class="delta">+ 14 / 7j</div></div>
+            <div class="dash-card"><div class="lbl" data-fr="Devis en attente" data-en="Pending quotes">Devis en attente</div><div class="val" style="color: var(--sun);">8</div><div class="delta" style="color: var(--sun);" data-fr="2 prioritaires" data-en="2 priority">2 prioritaires</div></div>
+            <div class="dash-card"><div class="lbl" data-fr="Revenus du mois" data-en="Monthly revenue">Revenus du mois</div><div class="val">22<em>k €</em></div><div class="delta">+ 18%</div></div>
+          </div>
+
+          <div class="dash-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th data-fr="Titre" data-en="Title">Titre</th>
+                  <th data-fr="Durée" data-en="Duration">Durée</th>
+                  <th data-fr="Inscrits" data-en="Enrolled">Inscrits</th>
+                  <th data-fr="Statut" data-en="Status">Statut</th>
+                  <th data-fr="Actions" data-en="Actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 01</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="IA appliquée aux opérations" data-en="Applied AI for ops">IA appliquée aux opérations</b></td>
+                  <td>12 h</td>
+                  <td>54</td>
+                  <td><span class="pill pill--ok" data-fr="PUBLIÉ" data-en="LIVE">PUBLIÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Éditer · Désactiver" data-en="Edit · Disable">Éditer · Désactiver</a></td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 02</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Automatisation sans code" data-en="No-code automation">Automatisation sans code</b></td>
+                  <td>8 h</td>
+                  <td>72</td>
+                  <td><span class="pill pill--ok" data-fr="PUBLIÉ" data-en="LIVE">PUBLIÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Éditer · Désactiver" data-en="Edit · Disable">Éditer · Désactiver</a></td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 03</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Data agritech & dashboards" data-en="Agritech data & dashboards">Data agritech & dashboards</b></td>
+                  <td>14 h</td>
+                  <td>38</td>
+                  <td><span class="pill pill--ok" data-fr="PUBLIÉ" data-en="LIVE">PUBLIÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Éditer · Désactiver" data-en="Edit · Disable">Éditer · Désactiver</a></td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 04</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Cartographie QGIS pour ONG" data-en="QGIS mapping for NGOs">Cartographie QGIS pour ONG</b></td>
+                  <td>10 h</td>
+                  <td>21</td>
+                  <td><span class="pill pill--draft" data-fr="BROUILLON" data-en="DRAFT">BROUILLON</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Éditer · Publier" data-en="Edit · Publish">Éditer · Publier</a></td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 05</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Marketing digital filière" data-en="Value-chain marketing">Marketing digital filière</b></td>
+                  <td>8 h</td>
+                  <td>32</td>
+                  <td><span class="pill pill--ok" data-fr="PUBLIÉ" data-en="LIVE">PUBLIÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Éditer · Désactiver" data-en="Edit · Disable">Éditer · Désactiver</a></td>
+                </tr>
+                <tr>
+                  <td class="mono" style="color: var(--accent);">A · 06</td>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Atelier IA sur mesure" data-en="Custom AI workshop">Atelier IA sur mesure</b></td>
+                  <td data-fr="sur devis" data-en="on quote">sur devis</td>
+                  <td>—</td>
+                  <td><span class="pill pill--late" data-fr="MANUEL" data-en="MANUAL">MANUEL</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px;" data-fr="Voir demandes" data-en="View requests">Voir demandes</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px;">
+            <div class="dash-card" style="padding: 28px;">
+              <span class="lbl" data-fr="Demandes de devis · 8 en attente" data-en="Quote requests · 8 pending">Demandes de devis · 8 en attente</span>
+              <ul style="list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 12px;">
+                <li style="display: grid; grid-template-columns: 1fr auto; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline);">
+                  <div><b data-fr="Coopérative Borgou" data-en="Borgou cooperative">Coopérative Borgou</b><br/><span style="color: var(--fg-3); font-size: 12px;" data-fr="Dashboard récolte 2026 · 18 000 €" data-en="2026 harvest dashboard · €18,000">Dashboard récolte 2026 · 18 000 €</span></div>
+                  <span class="pill pill--late" style="align-self: center;" data-fr="URGENT" data-en="URGENT">URGENT</span>
+                </li>
+                <li style="display: grid; grid-template-columns: 1fr auto; gap: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--hairline);">
+                  <div><b data-fr="ONG ResilSahel" data-en="NGO ResilSahel">ONG ResilSahel</b><br/><span style="color: var(--fg-3); font-size: 12px;" data-fr="Atlas climat 7 pays · 36 000 €" data-en="7-country climate atlas · €36,000">Atlas climat 7 pays · 36 000 €</span></div>
+                  <span class="pill pill--draft" style="align-self: center;" data-fr="EN COURS" data-en="OPEN">EN COURS</span>
+                </li>
+                <li style="display: grid; grid-template-columns: 1fr auto; gap: 14px;">
+                  <div><b data-fr="Faîtière Bénin Karité" data-en="Benin Karité Federation">Faîtière Bénin Karité</b><br/><span style="color: var(--fg-3); font-size: 12px;" data-fr="Site éditorial FR/EN · 4 800 €" data-en="Editorial site FR/EN · €4,800">Site éditorial FR/EN · 4 800 €</span></div>
+                  <span class="pill pill--ok" style="align-self: center;" data-fr="OK" data-en="OK">OK</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="dash-card" style="padding: 28px;">
+              <span class="lbl" data-fr="Activité du mois" data-en="Monthly activity">Activité du mois</span>
+              <h3 class="display" style="font-size: 28px; font-weight: 380; margin: 12px 0 6px; font-variation-settings: 'opsz' 60;">+ 18% <em style="font-style: italic; color: var(--accent); font-weight: 280;" data-fr="revenus" data-en="revenue">revenus</em></h3>
+              <!-- mini SVG chart -->
+              <svg viewBox="0 0 240 80" style="width: 100%; height: 80px; margin-top: 8px;">
+                <polyline points="0,60 30,55 60,50 90,40 120,42 150,30 180,28 210,18 240,12" fill="none" stroke="var(--accent)" stroke-width="1.6" />
+                <polyline points="0,68 30,65 60,62 90,58 120,55 150,50 180,46 210,40 240,34" fill="none" stroke="var(--fg-3)" stroke-width="1" stroke-dasharray="3 3" />
+                <g fill="var(--accent)">
+                  <circle cx="0" cy="60" r="2"/><circle cx="60" cy="50" r="2"/><circle cx="120" cy="42" r="2"/><circle cx="180" cy="28" r="2"/><circle cx="240" cy="12" r="2"/>
+                </g>
+              </svg>
+              <div style="display: flex; justify-content: space-between; margin-top: 8px; font-family: var(--mono); font-size: 10px; color: var(--fg-3); letter-spacing: 0.14em;">
+                <span data-fr="JAN" data-en="JAN">JAN</span><span data-fr="FEV" data-en="FEB">FEV</span><span data-fr="MAR" data-en="MAR">MAR</span><span data-fr="AVR" data-en="APR">AVR</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <button class="to-top" id="to-top" type="button" aria-label="Retour en haut" title="Retour en haut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+
+  <script src="../assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0A1410" />
+  <title>Contact & devis — KijaniLab</title>
+  <meta name="description" content="Demandez un devis ou prenez 30 minutes avec KijaniLab. Téléphone, WhatsApp, email — réponse sous 24 h ouvrées." />
+  <link rel="icon" href="../assets/logo-green-black-leaf.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a href="../index.html" class="nav__brand"><img src="../assets/logo-green-black-leaf.svg" alt="" data-logo-rel /><div><span class="nav__brand-text">KijaniLab</span><span class="nav__brand-suffix">/ Contact</span></div></a>
+    <nav class="nav__menu">
+      <a href="services.html" data-fr="Services" data-en="Services">Services</a>
+      <a href="projets.html" data-fr="Projets" data-en="Projects">Projets</a>
+      <a href="../index.html#atlas" data-fr="Atlas" data-en="Atlas">Atlas</a>
+      
+      <a href="contact.html" aria-current="page" data-fr="Contact" data-en="Contact">Contact</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__lang"><button data-lang="fr" aria-current="true">FR</button><span style="color:var(--fg-3);padding:0 2px;">/</span><button data-lang="en">EN</button></div>
+      <button class="nav__theme" id="theme-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button>
+      <a href="auth.html" class="nav__login" data-fr="Connexion" data-en="Sign in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg><span data-fr="Connexion" data-en="Sign in">Connexion</span></a>
+      <a href="contact.html" class="nav__cta" data-fr="Devis" data-en="Quote">Devis</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="page-hero__inner">
+        <span class="eyebrow" data-fr="Sans engagement / réponse < 24 h" data-en="No strings / reply < 24h">Sans engagement / réponse < 24 h</span>
+        <div>
+          <h1 class="display"><span data-fr="Décrivez " data-en="Describe ">Décrivez </span><em data-fr="le terrain. " data-en="the field. ">le terrain. </em><br/><span data-fr="On revient avec " data-en="We come back with ">On revient avec </span><em data-fr="un plan." data-en="a plan.">un plan.</em></h1>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-grid wrap">
+      <form class="contact-form" onsubmit="event.preventDefault(); this.reset(); document.getElementById('thanks').style.display='block';">
+        <h3 class="display" style="font-size: 28px; margin: 0 0 8px; font-variation-settings: 'opsz' 60;" data-fr="Demande de devis" data-en="Quote request">Demande de devis</h3>
+        <p style="margin: 0 0 16px; color: var(--fg-2); font-size: 14px;" data-fr="Plus c'est précis, plus on est utile au premier appel." data-en="The more specific, the more useful we'll be on the first call.">Plus c'est précis, plus on est utile au premier appel.</p>
+
+        <div class="grid2">
+          <label data-fr="Nom complet" data-en="Full name">Nom complet<input type="text" required placeholder="Georgeo AGBAHUNGBA" /></label>
+          <label data-fr="Organisation" data-en="Organization">Organisation<input type="text" required placeholder="KijaniLab" /></label>
+        </div>
+
+        <div class="grid2">
+          <label data-fr="Email" data-en="Email">Email<input type="email" required placeholder="contact@kijanilab.com" /></label>
+          <label data-fr="Téléphone / WhatsApp" data-en="Phone / WhatsApp">Téléphone / WhatsApp<input type="tel" placeholder="+229 01 67 65 97 17" /></label>
+        </div>
+
+        <label data-fr="Type de structure" data-en="Type of organization">Type de structure
+          <select>
+            <option data-fr="Coopérative / faîtière" data-en="Cooperative / federation">Coopérative / faîtière</option>
+            <option data-fr="Entreprise agroalimentaire" data-en="Agribusiness">Entreprise agroalimentaire</option>
+            <option data-fr="ONG / cabinet" data-en="NGO / consultancy">ONG / cabinet</option>
+            <option data-fr="Programme de développement" data-en="Development programme">Programme de développement</option>
+            <option data-fr="Ministère / institution" data-en="Ministry / institution">Ministère / institution</option>
+            <option data-fr="Organisation internationale" data-en="International organization">Organisation internationale</option>
+            <option data-fr="Startup / autre" data-en="Startup / other">Startup / autre</option>
+          </select>
+        </label>
+
+        <label data-fr="Service principal recherché" data-en="Main service needed">Service principal recherché
+          <select>
+            <option data-fr="Marketing digital & site web" data-en="Digital marketing & website">Marketing digital & site web</option>
+            <option data-fr="Automatisation processus" data-en="Process automation">Automatisation processus</option>
+            <option data-fr="Intégration IA opérationnelle" data-en="Operational AI">Intégration IA opérationnelle</option>
+            <option data-fr="Data & cartographie géospatiale" data-en="Data & geospatial mapping">Data & cartographie géospatiale</option>
+            <option data-fr="Produit digital web/mobile" data-en="Web/mobile digital product">Produit digital web/mobile</option>
+            <option data-fr="Capteurs & irrigation" data-en="Sensors & irrigation">Capteurs & irrigation</option>
+            <option data-fr="Agroéconomie / blockchain" data-en="Agro-economics / blockchain">Agroéconomie / blockchain</option>
+            <option data-fr="Pas encore sûr — discuter d'abord" data-en="Not sure yet — let's talk">Pas encore sûr — discuter d'abord</option>
+          </select>
+        </label>
+
+        <label data-fr="Budget envisagé (optionnel)" data-en="Tentative budget (optional)">Budget envisagé (optionnel)
+          <select>
+            <option>< 5 000 €</option>
+            <option>5 000 — 15 000 €</option>
+            <option>15 000 — 40 000 €</option>
+            <option>> 40 000 €</option>
+            <option data-fr="Sur subvention / bailleur" data-en="Grant-funded">Sur subvention / bailleur</option>
+          </select>
+        </label>
+
+        <label data-fr="Décrivez le contexte et l'objectif" data-en="Describe the context and goal">Décrivez le contexte et l'objectif<textarea required placeholder="Quelques lignes suffisent — on rappelle pour creuser."></textarea></label>
+
+        <button type="submit" data-fr="Envoyer la demande →" data-en="Send the request →">Envoyer la demande →</button>
+        <p id="thanks" style="display: none; color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;" data-fr="Demande reçue. Nous revenons sous 24 h ouvrées." data-en="Request received. We'll be back within 24 business hours.">Demande reçue. Nous revenons sous 24 h ouvrées.</p>
+      </form>
+
+      <aside class="contact-side">
+        <h3 class="display"><span data-fr="Ou prenez " data-en="Or take ">Ou prenez </span><em data-fr="le canal direct." data-en="the direct channel.">le canal direct.</em></h3>
+        <p style="color: var(--fg-2); margin: 0 0 24px;" data-fr="Pour une question rapide, on est aussi accessibles sans formulaire." data-en="For a quick question, we're available without the form.">Pour une question rapide, on est aussi accessibles sans formulaire.</p>
+
+        <a href="tel:+2290167659717" class="channel">
+          <div><span class="lbl" data-fr="Téléphone principal" data-en="Primary phone">Téléphone principal</span><br/><span class="val">+229 <em>01 67 65 97 17</em></span></div>
+          <span style="font-family: var(--mono); font-size: 11px; color: var(--accent);">→</span>
+        </a>
+        <a href="tel:+2290147146161" class="channel">
+          <div><span class="lbl" data-fr="Téléphone secondaire" data-en="Secondary phone">Téléphone secondaire</span><br/><span class="val">+229 <em>01 47 14 61 61</em></span></div>
+          <span style="font-family: var(--mono); font-size: 11px; color: var(--accent);">→</span>
+        </a>
+        <a href="https://wa.me/2290167659717" class="channel">
+          <div><span class="lbl">WhatsApp</span><br/><span class="val">+229 <em>01 67 65 97 17</em></span></div>
+          <span style="font-family: var(--mono); font-size: 11px; color: var(--accent);">→</span>
+        </a>
+        <a href="mailto:contact@kijanilab.com" class="channel">
+          <div><span class="lbl">Email</span><br/><span class="val"><em>contact@kijanilab.com</em></span></div>
+          <span style="font-family: var(--mono); font-size: 11px; color: var(--accent);">→</span>
+        </a>
+
+        <div style="margin-top: 32px; padding: 20px; border: 1px solid var(--hairline); border-radius: 10px; background: var(--bg-2);">
+          <span class="lbl" style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; color: var(--fg-3); text-transform: uppercase;" data-fr="Bureau" data-en="Office">Bureau</span>
+          <p style="margin: 6px 0 0; font-family: var(--display); font-size: 18px; font-variation-settings: 'opsz' 32;" data-fr="Cotonou — Bénin · Ouvert lun-ven 8h–18h GMT+1" data-en="Cotonou — Benin · Open Mon–Fri 8am–6pm GMT+1">Cotonou — Bénin · Ouvert lun-ven 8h–18h GMT+1</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__bottom" style="border-top: 1px solid var(--hairline); padding-top: 28px;"><div>© 2026 KijaniLab</div><a href="../index.html" data-fr="← Retour à l'accueil" data-en="← Back home">← Retour à l'accueil</a></div>
+      </div>
+    </footer>
+  </main>
+
+  <a class="wa" href="https://wa.me/2290167659717" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4 0 1.4 1 2.7 1.2 2.9.1.2 2 3.2 4.9 4.4.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5-1.3c1.4.8 3.1 1.3 5 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>WhatsApp</a>
+
+  <button class="to-top" id="to-top" type="button" aria-label="Retour en haut" title="Retour en haut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+
+  <script src="../assets/app.js" defer></script>
+</body>
+</html>

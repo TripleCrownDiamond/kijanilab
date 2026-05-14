@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0A1410" />
+  <title>Tableau de bord — KijaniLab Académie</title>
+  <link rel="icon" href="../assets/logo-green-black-leaf.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a href="../index.html" class="nav__brand"><img src="../assets/logo-green-black-leaf.svg" alt="" data-logo-rel /><div><span class="nav__brand-text">KijaniLab</span><span class="nav__brand-suffix">/ Académie</span></div></a>
+    <nav class="nav__menu">
+      <a href="dashboard.html" aria-current="page" data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</a>
+      <a href="#" data-fr="Mes parcours" data-en="My tracks">Mes parcours</a>
+      <a href="#" data-fr="Ressources" data-en="Resources">Ressources</a>
+      <a href="#" data-fr="Certificats" data-en="Certificates">Certificats</a>
+    </nav>
+    <div class="nav__right">
+      <button class="nav__theme" id="theme-toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+      <a href="auth.html" class="nav__cta" style="background: transparent; color: var(--fg); border: 1px solid var(--hairline-strong);" data-fr="Déconnexion" data-en="Sign out">Déconnexion</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="dash">
+
+      <header class="dash__head">
+        <div>
+          <span class="meta" data-fr="Bonjour Georgeo · membre depuis 2024" data-en="Hello Georgeo · member since 2024">Bonjour Georgeo · membre depuis 2024</span>
+          <h1 class="display" style="margin-top: 8px;"><span data-fr="Votre " data-en="Your ">Votre </span><em data-fr="apprentissage " data-en="learning ">apprentissage </em><span data-fr="cette semaine." data-en="this week.">cette semaine.</span></h1>
+        </div>
+        <a href="#" class="btn btn--primary"><span data-fr="Reprendre le module" data-en="Resume module">Reprendre le module</span><span class="arrow">→</span></a>
+      </header>
+
+      <div class="dash__grid">
+        <nav class="dash__nav" aria-label="Sections">
+          <a href="#" aria-current="true" data-fr="Vue d'ensemble" data-en="Overview">Vue d'ensemble</a>
+          <a href="#" data-fr="Mes parcours" data-en="My tracks">Mes parcours</a>
+          <a href="#" data-fr="Ressources signées" data-en="Signed resources">Ressources signées</a>
+          <a href="#" data-fr="Sessions live" data-en="Live sessions">Sessions live</a>
+          <a href="#" data-fr="Certificats" data-en="Certificates">Certificats</a>
+          <a href="#" data-fr="Communauté" data-en="Community">Communauté</a>
+          <a href="#" data-fr="Profil" data-en="Profile">Profil</a>
+          <a href="#" data-fr="Facturation" data-en="Billing">Facturation</a>
+        </nav>
+
+        <div class="dash__main">
+
+          <div class="dash__cards">
+            <div class="dash-card">
+              <div class="lbl" data-fr="Parcours actifs" data-en="Active tracks">Parcours actifs</div>
+              <div class="val">3<em>/6</em></div>
+              <div class="delta" data-fr="+ 1 ce mois" data-en="+ 1 this month">+ 1 ce mois</div>
+            </div>
+            <div class="dash-card">
+              <div class="lbl" data-fr="Heures suivies" data-en="Hours logged">Heures suivies</div>
+              <div class="val">28<em>h</em></div>
+              <div class="delta">+ 4h / 7j</div>
+            </div>
+            <div class="dash-card">
+              <div class="lbl" data-fr="Modules complets" data-en="Modules done">Modules complets</div>
+              <div class="val">12</div>
+              <div class="delta">+ 2</div>
+            </div>
+            <div class="dash-card">
+              <div class="lbl" data-fr="Certificats" data-en="Certificates">Certificats</div>
+              <div class="val">2</div>
+              <div class="delta" style="color: var(--sun);" data-fr="1 prêt à signer" data-en="1 ready to sign">1 prêt à signer</div>
+            </div>
+          </div>
+
+          <div class="dash-table">
+            <table>
+              <thead>
+                <tr>
+                  <th data-fr="Parcours" data-en="Track">Parcours</th>
+                  <th data-fr="Module en cours" data-en="Current module">Module en cours</th>
+                  <th data-fr="Progression" data-en="Progress">Progression</th>
+                  <th data-fr="Statut" data-en="Status">Statut</th>
+                  <th data-fr="Action" data-en="Action">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="IA appliquée aux opérations" data-en="Applied AI for ops">IA appliquée aux opérations</b><br/><span style="color: var(--fg-3); font-size: 12px;">A · 01</span></td>
+                  <td data-fr="04 — Assistants métier" data-en="04 — Role-based assistants">04 — Assistants métier</td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;"><div style="width: 65%; height: 100%; background: var(--accent);"></div></div>
+                      <span class="mono" style="color: var(--fg-2);">65%</span>
+                    </div>
+                  </td>
+                  <td><span class="pill pill--ok" data-fr="EN COURS" data-en="LIVE">EN COURS</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;" data-fr="Reprendre →" data-en="Resume →">Reprendre →</a></td>
+                </tr>
+                <tr>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Automatisation sans code" data-en="No-code automation">Automatisation sans code</b><br/><span style="color: var(--fg-3); font-size: 12px;">A · 02</span></td>
+                  <td data-fr="03 — Webhooks et triggers" data-en="03 — Webhooks & triggers">03 — Webhooks et triggers</td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;"><div style="width: 40%; height: 100%; background: var(--accent);"></div></div>
+                      <span class="mono" style="color: var(--fg-2);">40%</span>
+                    </div>
+                  </td>
+                  <td><span class="pill pill--ok" data-fr="EN COURS" data-en="LIVE">EN COURS</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;" data-fr="Reprendre →" data-en="Resume →">Reprendre →</a></td>
+                </tr>
+                <tr>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Cartographie QGIS" data-en="QGIS mapping">Cartographie QGIS</b><br/><span style="color: var(--fg-3); font-size: 12px;">A · 04</span></td>
+                  <td data-fr="01 — Coordonnées et CRS" data-en="01 — Coordinates & CRS">01 — Coordonnées et CRS</td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;"><div style="width: 12%; height: 100%; background: var(--accent);"></div></div>
+                      <span class="mono" style="color: var(--fg-2);">12%</span>
+                    </div>
+                  </td>
+                  <td><span class="pill pill--draft" data-fr="DÉMARRÉ" data-en="STARTED">DÉMARRÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;" data-fr="Reprendre →" data-en="Resume →">Reprendre →</a></td>
+                </tr>
+                <tr>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Marketing digital filière" data-en="Value-chain marketing">Marketing digital filière</b><br/><span style="color: var(--fg-3); font-size: 12px;">A · 05</span></td>
+                  <td data-fr="04 — Funnel & conversion" data-en="04 — Funnel & conversion">04 — Funnel & conversion</td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;"><div style="width: 100%; height: 100%; background: var(--accent);"></div></div>
+                      <span class="mono" style="color: var(--accent);">100%</span>
+                    </div>
+                  </td>
+                  <td><span class="pill pill--ok" data-fr="TERMINÉ" data-en="DONE">TERMINÉ</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;" data-fr="Certificat →" data-en="Certificate →">Certificat →</a></td>
+                </tr>
+                <tr>
+                  <td><b style="font-family: var(--display); font-size: 16px;" data-fr="Data agritech" data-en="Agritech data">Data agritech</b><br/><span style="color: var(--fg-3); font-size: 12px;">A · 03</span></td>
+                  <td data-fr="06 — Schéma KPI agricole" data-en="06 — Farm KPI schema">06 — Schéma KPI agricole</td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                      <div style="flex: 1; height: 4px; background: var(--bg-3); border-radius: 2px; overflow: hidden;"><div style="width: 8%; height: 100%; background: var(--rust);"></div></div>
+                      <span class="mono" style="color: var(--fg-2);">8%</span>
+                    </div>
+                  </td>
+                  <td><span class="pill pill--late" data-fr="EN PAUSE" data-en="PAUSED">EN PAUSE</span></td>
+                  <td><a href="#" style="color: var(--accent); font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;" data-fr="Reprendre →" data-en="Resume →">Reprendre →</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px;">
+            <div class="dash-card" style="padding: 28px;">
+              <span class="lbl" data-fr="Prochaine session live" data-en="Next live session">Prochaine session live</span>
+              <h3 class="display" style="font-size: 22px; font-weight: 380; margin: 8px 0; line-height: 1.15;" data-fr="Atelier RAG appliqué — coopératives" data-en="Applied RAG workshop — cooperatives">Atelier RAG appliqué — coopératives</h3>
+              <span class="mono" style="color: var(--fg-3);" data-fr="Mardi 28 avril · 16h GMT+1 · Cotonou & Zoom" data-en="Tue 28 Apr · 4 PM GMT+1 · Cotonou & Zoom">Mardi 28 avril · 16h GMT+1 · Cotonou & Zoom</span>
+              <div style="margin-top: 14px;"><a href="#" class="btn btn--ghost" style="padding: 10px 16px; font-size: 11px;"><span data-fr="Confirmer présence" data-en="RSVP">Confirmer présence</span><span class="arrow">→</span></a></div>
+            </div>
+            <div class="dash-card" style="padding: 28px;">
+              <span class="lbl" data-fr="Suggestion KijaniLab" data-en="KijaniLab suggestion">Suggestion KijaniLab</span>
+              <h3 class="display" style="font-size: 22px; font-weight: 380; margin: 8px 0; line-height: 1.15;" data-fr="Atelier sur mesure — IA pour votre équipe ?" data-en="Custom workshop — AI for your team?">Atelier sur mesure — IA pour votre équipe ?</h3>
+              <span class="mono" style="color: var(--fg-3);" data-fr="2 jours · cadrage et déploiement IA dans vos process" data-en="2 days · scoping and AI rollout in your ops">2 jours · cadrage et déploiement IA dans vos process</span>
+              <div style="margin-top: 14px;"><a href="contact.html" class="btn btn--primary" style="padding: 10px 16px; font-size: 11px;"><span data-fr="Demander un devis" data-en="Request a quote">Demander un devis</span><span class="arrow">→</span></a></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <button class="to-top" id="to-top" type="button" aria-label="Retour en haut" title="Retour en haut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+
+  <script src="../assets/app.js" defer></script>
+</body>
+</html>

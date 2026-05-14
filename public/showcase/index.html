@@ -1,0 +1,1513 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0A1410" />
+  <title>KijaniLab — Atelier digital agritech, IA & impact terrain</title>
+  <meta name="description" content="KijaniLab conçoit des produits digitaux agritech : automatisation, IA, data, cartographie géospatiale et plateformes web/mobile pour coopératives, entreprises, ONG et institutions." />
+  <link rel="icon" href="/showcase/assets/logo-green-black-leaf.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+</head>
+<body>
+
+  <!-- ─────────── LOADER ─────────── -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <div class="loader__mark">
+        <span class="loader__halo"></span>
+        <img class="loader__logo" data-loader-logo src="/showcase/assets/logo-green-black-leaf.svg" alt="" />
+      </div>
+      <div class="loader__bar"></div>
+      <div class="loader__meta">
+        <span id="loader-status" data-fr="Atelier KijaniLab" data-en="KijaniLab Studio">Atelier KijaniLab</span>
+        <span id="loader-progress">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── NAV ─────────── -->
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav__brand" aria-label="KijaniLab">
+      <img src="/showcase/assets/logo-green-black-leaf.svg" alt="" data-logo />
+      <div>
+        <span class="nav__brand-text">KijaniLab</span>
+        <span class="nav__brand-suffix">/ Atelier 2026</span>
+      </div>
+    </a>
+    <nav class="nav__menu" aria-label="Sections">
+      <a href="#services" data-fr="Services" data-en="Services">Services</a>
+      <a href="pages/projets.html" data-fr="Projets" data-en="Projects">Projets</a>
+      <a href="#atlas" data-fr="Atlas" data-en="Atlas">Atlas</a>
+      
+      <a href="pages/contact.html" data-fr="Contact" data-en="Contact">Contact</a>
+    </nav>
+    <div class="nav__right">
+      <div class="nav__lang" role="group" aria-label="Langue">
+        <button data-lang="fr" aria-current="true">FR</button>
+        <span style="color: var(--fg-3); padding: 0 2px;">/</span>
+        <button data-lang="en" aria-current="false">EN</button>
+      </div>
+      <button class="nav__theme" id="theme-toggle" aria-label="Basculer thème">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>
+        </svg>
+      </button>
+            <a href="pages/auth.html" class="nav__login" data-fr="Connexion" data-en="Sign in">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        <span data-fr="Connexion" data-en="Sign in">Connexion</span>
+      </a><a href="pages/contact.html" class="nav__cta" data-fr="Devis" data-en="Quote">Devis</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ─────────── HERO ─────────── -->
+    <section class="hero">
+      <div class="wrap hero__inner">
+        <div class="hero__col-l">
+          <div class="hero__crumbs">
+            <span data-fr="Cotonou — Bénin" data-en="Cotonou — Benin">Cotonou — Bénin</span>
+            <span data-fr="Atelier digital agritech" data-en="Digital agritech studio">Atelier digital agritech</span>
+</div>
+
+          <h1 class="hero__title display">
+            <span class="hero__title-main" data-fr="Réinventer l'agriculture par le" data-en="Reinventing agriculture through">Réinventer l'agriculture par le</span>
+            <span class="hero__title-accent" data-fr="digital" data-en="digital">digital</span>
+          </h1>
+
+          <p class="lede hero__lede" data-fr="KijaniLab conçoit des solutions digitales innovantes pour les acteurs du secteur agricole. Nous aidons les coopératives, entreprises, ONG et institutions à gagner du temps, optimiser leurs ressources, renforcer leur image et prendre des décisions basées sur des données fiables." data-en="KijaniLab builds digital products, automation pipelines and geospatial systems for the cooperatives, agribusinesses, NGOs and institutions that decide on evidence.">
+            KijaniLab conçoit des solutions digitales innovantes pour les acteurs du secteur agricole. Nous aidons les coopératives, entreprises, ONG et institutions à gagner du temps, optimiser leurs ressources, renforcer leur image et prendre des décisions basées sur des données fiables.
+          </p>
+
+          <div class="hero__cta">
+            <a href="pages/contact.html" class="btn btn--primary">
+              <span data-fr="Parler à un expert" data-en="Talk to a strategist">Parler à un expert</span>
+              <span class="arrow">→</span>
+            </a>
+            <a href="pages/services.html" class="btn btn--ghost">
+              <span data-fr="Voir nos services" data-en="See our services">Voir nos services</span>
+              <span class="arrow">↓</span>
+            </a>
+          </div>
+
+          <div class="hero__trust">
+            <div><div class="num"><span data-counter-to="7" data-counter-suffix="">0</span><em>+</em></div><div class="lbl" data-fr="Expérience hybride" data-en="Hybrid experience">Expérience hybride</div></div>
+            <div><div class="num"><span data-counter-to="10" data-counter-suffix="">0</span><em>+</em></div><div class="lbl" data-fr="Projets livrés" data-en="Projects delivered">Projets livrés</div></div>
+            <div><div class="num"><span data-counter-to="98" data-counter-suffix="">0</span><em>%</em></div><div class="lbl" data-fr="Satisfaction" data-en="Satisfaction">Satisfaction</div></div>
+            <div><div class="num">N°<em>1</em></div><div class="lbl" data-fr="Leader agritech" data-en="Agritech leader">Leader agritech</div></div>
+          </div>
+        </div>
+
+        <div class="hero__col-r">
+          <div class="scene" aria-hidden="true">
+            <div class="scene__topo"></div>
+            <div class="scene__grid"></div>
+            <div class="scene__beam"></div>
+            <div class="scene__crosshair"></div>
+
+            <div class="scene__data scene__data--tl">
+              <div>SECTOR / FN-04</div>
+              <div>LAT  06°22'12" N</div>
+              <div>LON  02°26'06" E</div>
+            </div>
+            <div class="scene__data scene__data--tr">
+              <div>NDVI <span class="v">0.78</span></div>
+              <div>HUM  <span class="v">62%</span></div>
+              <div>TMP  <span class="v">28.4°</span></div>
+            </div>
+            <div class="scene__data scene__data--bl">
+              <div data-fr="STATUT • RECONNAISSANCE" data-en="STATUS • SCAN">STATUT • RECONNAISSANCE</div>
+              <div>FRAME 0048 / <span class="v">LIVE</span></div>
+            </div>
+            <div class="scene__data scene__data--br">
+              <div data-fr="ALTITUDE  120 m" data-en="ALTITUDE  120 m">ALTITUDE  120 m</div>
+              <div data-fr="VITESSE  9.2 m/s" data-en="SPEED  9.2 m/s">VITESSE  9.2 m/s</div>
+              <div>BAT <span class="v">81%</span></div>
+            </div>
+
+            <div class="scene__drone">
+              <svg class="drone-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle class="ring" cx="100" cy="100" r="92"/>
+                <circle class="ring" cx="100" cy="100" r="76" stroke-dasharray="2 4" />
+                <g>
+                  <rect class="arm" x="30" y="30" width="40" height="8" rx="2" transform="rotate(45 50 34)"/>
+                  <rect class="arm" x="130" y="30" width="40" height="8" rx="2" transform="rotate(-45 150 34)"/>
+                  <rect class="arm" x="30" y="162" width="40" height="8" rx="2" transform="rotate(-45 50 166)"/>
+                  <rect class="arm" x="130" y="162" width="40" height="8" rx="2" transform="rotate(45 150 166)"/>
+                </g>
+                <g class="scene__rotor" style="transform-origin: 35px 35px;">
+                  <ellipse cx="35" cy="35" rx="22" ry="2" fill="var(--mint)" opacity="0.55"/>
+                  <ellipse cx="35" cy="35" rx="2" ry="22" fill="var(--mint)" opacity="0.55"/>
+                  <circle cx="35" cy="35" r="3" class="accent"/>
+                </g>
+                <g class="scene__rotor r2" style="transform-origin: 165px 35px;">
+                  <ellipse cx="165" cy="35" rx="22" ry="2" fill="var(--mint)" opacity="0.55"/>
+                  <ellipse cx="165" cy="35" rx="2" ry="22" fill="var(--mint)" opacity="0.55"/>
+                  <circle cx="165" cy="35" r="3" class="accent"/>
+                </g>
+                <g class="scene__rotor r2" style="transform-origin: 35px 165px;">
+                  <ellipse cx="35" cy="165" rx="22" ry="2" fill="var(--mint)" opacity="0.55"/>
+                  <ellipse cx="35" cy="165" rx="2" ry="22" fill="var(--mint)" opacity="0.55"/>
+                  <circle cx="35" cy="165" r="3" class="accent"/>
+                </g>
+                <g class="scene__rotor" style="transform-origin: 165px 165px;">
+                  <ellipse cx="165" cy="165" rx="22" ry="2" fill="var(--mint)" opacity="0.55"/>
+                  <ellipse cx="165" cy="165" rx="2" ry="22" fill="var(--mint)" opacity="0.55"/>
+                  <circle cx="165" cy="165" r="3" class="accent"/>
+                </g>
+                <rect class="body" x="74" y="74" width="52" height="52" rx="10"/>
+                <rect class="arm" x="80" y="80" width="40" height="40" rx="6"/>
+                <circle class="lens" cx="100" cy="100" r="14"/>
+                <circle class="lens" cx="100" cy="100" r="9" stroke-width="0.4"/>
+                <circle class="accent" cx="100" cy="100" r="3"/>
+                <line x1="100" y1="74" x2="100" y2="62" stroke="var(--mint)" stroke-width="1.2"/>
+                <circle class="accent" cx="100" cy="62" r="2.5"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="hero__ticker">
+            <span class="lbl">LIVE FEED</span>
+            <div class="ticker">
+              <span><b>+</b> <span data-fr="Coopérative Borgou · dashboard récolte déployé" data-en="Borgou cooperative · harvest dashboard live">Coopérative Borgou · dashboard récolte déployé</span></span>
+              <span><b>+</b> <span data-fr="Lerural.bj · 3 200 visiteurs cette semaine" data-en="Lerural.bj · 3,200 weekly visitors">Lerural.bj · 3 200 visiteurs cette semaine</span></span>
+              <span><b>+</b> <span data-fr="Ididong.org · 14 nouveaux producteurs cartographiés" data-en="Ididong.org · 14 new producers mapped">Ididong.org · 14 nouveaux producteurs cartographiés</span></span>
+              <span><b>+</b> <span data-fr="Atelier IA · rapports trimestriels automatisés" data-en="AI workshop · quarterly reports automated">Atelier IA · rapports trimestriels automatisés</span></span>
+              <span><b>+</b> <span data-fr="Coopérative Borgou · dashboard récolte déployé" data-en="Borgou cooperative · harvest dashboard live">Coopérative Borgou · dashboard récolte déployé</span></span>
+              <span><b>+</b> <span data-fr="Lerural.bj · 3 200 visiteurs cette semaine" data-en="Lerural.bj · 3,200 weekly visitors">Lerural.bj · 3 200 visiteurs cette semaine</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────── N°01 SERVICES ─────────── -->
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Catalogue / 8 lignes" data-en="Catalogue / 8 lines">Catalogue / 8 lignes</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Stratégie, code, données, terrain — " data-en="Strategy, code, data, fieldwork — ">Stratégie, code, données, terrain — </span>
+              <em class="display-italic" data-fr="un seul atelier." data-en="one studio.">un seul atelier.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="bento">
+          <div class="bento__cell bento__cell--feature">
+            <span class="num">01</span>
+            <h3 class="display">
+              <span data-fr="Marketing digital " data-en="Digital marketing ">Marketing digital </span>
+              <em class="display-italic" data-fr="& acquisition." data-en="& acquisition.">& acquisition.</em>
+            </h3>
+            <p data-fr="Sites conversion-first, SEO, réseaux sociaux, image de marque. On installe une présence locale et internationale qui transforme la visibilité en partenaires qualifiés." data-en="Conversion-first sites, SEO, social, brand. We turn visibility into partners — local reach plus international credibility.">
+              Sites conversion-first, SEO, réseaux sociaux, image de marque. On installe une présence locale et internationale qui transforme la visibilité en partenaires qualifiés.
+            </p>
+            <div class="tags">
+              <span data-fr="Site web" data-en="Website">Site web</span>
+              <span>SEO</span>
+              <span>Brand</span>
+              <span>Social</span>
+              <span>Acquisition</span>
+            </div>
+            <svg class="feature-art" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g fill="none" stroke="var(--accent)" stroke-width="0.6" opacity="0.35">
+                <circle cx="160" cy="160" r="40"/><circle cx="160" cy="160" r="80"/>
+                <circle cx="160" cy="160" r="120"/><circle cx="160" cy="160" r="158"/>
+                <line x1="0" y1="160" x2="320" y2="160"/><line x1="160" y1="0" x2="160" y2="320"/>
+                <line x1="40" y1="40" x2="280" y2="280"/><line x1="280" y1="40" x2="40" y2="280"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="bento__cell bento__cell--w4 bento__cell--accent">
+            <span class="num">02</span>
+            <h3 class="display"><span data-fr="Automatisation " data-en="Automation ">Automatisation </span><em data-fr="processus." data-en="ops.">processus.</em></h3>
+            <p data-fr="Relances, rapports, validations, alertes. On supprime la tâche répétitive sans casser le métier." data-en="Follow-ups, reports, approvals, alerts. We strip the repetitive layer without breaking the craft.">Relances, rapports, validations, alertes. On supprime la tâche répétitive sans casser le métier.</p>
+            <div class="tags"><span>n8n</span><span>Make</span><span>Workflows</span></div>
+          </div>
+
+          <div class="bento__cell bento__cell--w4">
+            <span class="num">03</span>
+            <h3 class="display"><span data-fr="IA dans " data-en="AI in ">IA dans </span><em data-fr="la routine." data-en="daily work.">la routine.</em></h3>
+            <p data-fr="Emails, comptes rendus, synthèses, priorisation. Une IA installée comme un collègue calme, pas comme un gadget." data-en="Emails, minutes, summaries, prioritization. AI as a quiet colleague, not as a gadget.">Emails, comptes rendus, synthèses, priorisation. Une IA installée comme un collègue calme, pas comme un gadget.</p>
+            <div class="tags"><span>GPT</span><span>Claude</span><span>RAG</span></div>
+          </div>
+
+          <div class="bento__cell bento__cell--w4">
+            <span class="num">04</span>
+            <h3 class="display"><span data-fr="Data " data-en="Data ">Data </span><em data-fr="& cartographie." data-en="& mapping.">& cartographie.</em></h3>
+            <p data-fr="Collecte terrain, dashboards, indicateurs critiques, maps géospatiales. Décider sur preuves, pas sur sensations." data-en="Field capture, dashboards, critical KPIs, geospatial maps. Deciding from evidence, not from gut.">Collecte terrain, dashboards, indicateurs critiques, maps géospatiales. Décider sur preuves, pas sur sensations.</p>
+            <div class="tags"><span>KoboToolbox</span><span>QGIS</span><span>Mapbox</span><span>PostGIS</span></div>
+          </div>
+
+          <div class="bento__cell bento__cell--w8 bento__cell--photo">
+            <img src="https://images.unsplash.com/photo-1595005577107-2f7baddebf60?auto=format&fit=crop&w=1600&q=80" alt="" />
+            <div class="overlay">
+              <div>
+                <span class="num">05</span>
+                <h3 class="display"><span data-fr="Produits digitaux " data-en="Digital products ">Produits digitaux </span><em data-fr="web · mobile · IA." data-en="web · mobile · AI.">web · mobile · IA.</em></h3>
+                <p style="color: rgba(244,239,224,0.78); margin-top: 8px; max-width: 56ch;" data-fr="Détection des maladies, gestion d'exploitation, marketplaces filière, portails de traçabilité. On expédie des produits utilisés sur le terrain, pas des prototypes." data-en="Disease detection, farm management, value-chain marketplaces, traceability portals. Products used on the ground, not prototypes.">
+                  Détection des maladies, gestion d'exploitation, marketplaces filière, portails de traçabilité. On expédie des produits utilisés sur le terrain, pas des prototypes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bento__cell bento__cell--w4">
+            <span class="num">06</span>
+            <h3 class="display"><span data-fr="Capteurs &amp; " data-en="Sensors & ">Capteurs & </span><em data-fr="irrigation intelligente." data-en="smart irrigation.">irrigation intelligente.</em></h3>
+            <p data-fr="Humidité, température, déclenchement automatique. Moins de pertes, rendement plus stable." data-en="Soil moisture, temperature, auto-triggering. Fewer losses, steadier yield.">Humidité, température, déclenchement automatique. Moins de pertes, rendement plus stable.</p>
+            <div class="tags"><span>IoT</span><span>LoRa</span></div>
+          </div>
+
+          <div class="bento__cell bento__cell--w6">
+            <span class="num">07</span>
+            <h3 class="display"><span data-fr="Agroéconomie " data-en="Agro-economics ">Agroéconomie </span><em data-fr="& économie verte." data-en="& green economy.">& économie verte.</em></h3>
+            <p data-fr="Analyse chaîne de valeur, performance économique, scénarios de croissance durable." data-en="Value-chain analysis, economic performance, sustainable growth scenarios.">Analyse chaîne de valeur, performance économique, scénarios de croissance durable.</p>
+            <div class="tags"><span data-fr="Stratégie" data-en="Strategy">Stratégie</span><span data-fr="Modélisation" data-en="Modeling">Modélisation</span></div>
+          </div>
+
+          <div class="bento__cell bento__cell--w6">
+            <span class="num">08</span>
+            <h3 class="display"><span data-fr="Blockchain &amp; " data-en="Blockchain & ">Blockchain & </span><em data-fr="traçabilité filière." data-en="value-chain traceability.">traçabilité filière.</em></h3>
+            <p data-fr="Historique immuable, audit transparent, preuve d'origine. Pour les filières exportatrices et les normes de durabilité." data-en="Immutable history, transparent audit, proof of origin. For export chains and sustainability standards.">Historique immuable, audit transparent, preuve d'origine. Pour les filières exportatrices et les normes de durabilité.</p>
+            <div class="tags"><span>Polygon</span><span>QR</span><span data-fr="Audit" data-en="Audit">Audit</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── 3D DEPTH MARQUEE ─────────── -->
+    <div class="depth-marquee" aria-hidden="true">
+      <div class="depth-marquee__layer depth-marquee__layer--back">
+        <span data-fr="Coopératives" data-en="Cooperatives">Coopératives</span><span class="dot"></span>
+        <em data-fr="Faîtières" data-en="Federations">Faîtières</em><span class="dot"></span>
+        <span data-fr="Agroalimentaire" data-en="Food industry">Agroalimentaire</span><span class="dot"></span>
+        <em data-fr="ONG" data-en="NGOs">ONG</em><span class="dot"></span>
+        <span data-fr="Programmes" data-en="Programmes">Programmes</span><span class="dot"></span>
+        <em data-fr="Ministères" data-en="Ministries">Ministères</em><span class="dot"></span>
+        <span data-fr="Bailleurs" data-en="Donors">Bailleurs</span><span class="dot"></span>
+        <em data-fr="Recherche" data-en="Research">Recherche</em><span class="dot"></span>
+        <span data-fr="Coopératives" data-en="Cooperatives">Coopératives</span><span class="dot"></span>
+        <em data-fr="Faîtières" data-en="Federations">Faîtières</em><span class="dot"></span>
+        <span data-fr="Agroalimentaire" data-en="Food industry">Agroalimentaire</span><span class="dot"></span>
+        <em data-fr="ONG" data-en="NGOs">ONG</em><span class="dot"></span>
+      </div>
+      <div class="depth-marquee__layer depth-marquee__layer--front">
+        <span data-fr="Coopératives" data-en="Cooperatives">Coopératives</span><span class="dot"></span>
+        <em data-fr="Faîtières" data-en="Federations">Faîtières</em><span class="dot"></span>
+        <span data-fr="Agroalimentaire" data-en="Food industry">Agroalimentaire</span><span class="dot"></span>
+        <em data-fr="ONG" data-en="NGOs">ONG</em><span class="dot"></span>
+        <span data-fr="Programmes" data-en="Programmes">Programmes</span><span class="dot"></span>
+        <em data-fr="Ministères" data-en="Ministries">Ministères</em><span class="dot"></span>
+        <span data-fr="Bailleurs" data-en="Donors">Bailleurs</span><span class="dot"></span>
+        <em data-fr="Startups" data-en="Startups">Startups</em><span class="dot"></span>
+        <span data-fr="Recherche" data-en="Research">Recherche</span><span class="dot"></span>
+        <em data-fr="Coopératives" data-en="Cooperatives">Coopératives</em><span class="dot"></span>
+        <span data-fr="Faîtières" data-en="Federations">Faîtières</span><span class="dot"></span>
+        <em data-fr="Agroalimentaire" data-en="Food industry">Agroalimentaire</em><span class="dot"></span>
+      </div>
+    </div>
+
+    <!-- ─────────── N°02 CIBLES ─────────── -->
+    <section class="targets">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Pour qui / 14 cibles" data-en="For whom / 14 targets">Pour qui / 14 cibles</span>
+            <h2 class="section-head__title display">
+              <span data-fr="On parle agritech, " data-en="We speak agritech, ">On parle agritech, </span>
+              <em class="display-italic" data-fr="on travaille avec." data-en="we work with.">on travaille avec.</em>
+            </h2>
+          </div>
+        </div>
+        <ul class="targets__list">
+          <li data-fr="Coopératives agricoles" data-en="Agricultural cooperatives">Coopératives agricoles</li>
+          <li><em data-fr="Unions & faîtières" data-en="Unions & federations">Unions & faîtières</em></li>
+          <li data-fr="Entreprises agricoles" data-en="Agribusinesses">Entreprises agricoles</li>
+          <li data-fr="Industries agroalimentaires" data-en="Food industries">Industries agroalimentaires</li>
+          <li><em data-fr="ONG & cabinets d'expertise" data-en="NGOs & consultancies">ONG & cabinets d'expertise</em></li>
+          <li data-fr="Programmes de développement" data-en="Development programmes">Programmes de développement</li>
+          <li data-fr="Ministères & institutions" data-en="Ministries & institutions">Ministères & institutions</li>
+          <li><em data-fr="Organisations internationales" data-en="International organizations">Organisations internationales</em></li>
+          <li data-fr="Startups agritech" data-en="Agritech startups">Startups agritech</li>
+          <li data-fr="Investisseurs impact" data-en="Impact investors">Investisseurs impact</li>
+          <li><em data-fr="Fintech rurales" data-en="Rural fintechs">Fintech rurales</em></li>
+          <li data-fr="Logistique de filière" data-en="Value-chain logistics">Logistique de filière</li>
+          <li data-fr="Transformateurs & distributeurs" data-en="Processors & distributors">Transformateurs & distributeurs</li>
+          <li><em data-fr="Universités & centres de recherche" data-en="Universities & research centres">Universités & centres de recherche</em></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─────────── N°03 AUTOMATION FLOW ─────────── -->
+    <section class="flow">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Automatisation / cas réels" data-en="Automation / real cases">Automatisation / cas réels</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Les heures qu'on rend " data-en="The hours we hand back ">Les heures qu'on rend </span>
+              <em class="display-italic" data-fr="à vos équipes." data-en="to your teams.">à vos équipes.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="flow__grid">
+          <div class="flow__steps">
+            <div class="flow__step">
+              <span class="step-no">i</span>
+              <div>
+                <h4 data-fr="Relances email & WhatsApp" data-en="Email & WhatsApp follow-ups">Relances email & WhatsApp</h4>
+                <p data-fr="Trigger automatique sur statut de devis, signature, paiement, livraison." data-en="Auto-triggered on quote status, signature, payment, delivery.">Trigger automatique sur statut de devis, signature, paiement, livraison.</p>
+              </div>
+              <span class="gain" data-fr="−18 h / sem." data-en="−18 h / wk.">−18 h / sem.</span>
+            </div>
+            <div class="flow__step">
+              <span class="step-no">ii</span>
+              <div>
+                <h4 data-fr="Génération de rapports" data-en="Report generation">Génération de rapports</h4>
+                <p data-fr="Hebdo et mensuel — données consolidées, mise en page propre, livré sans intervention." data-en="Weekly and monthly — consolidated data, clean layout, delivered untouched.">Hebdo et mensuel — données consolidées, mise en page propre, livré sans intervention.</p>
+              </div>
+              <span class="gain" data-fr="x4 vitesse" data-en="x4 speed">x4 vitesse</span>
+            </div>
+            <div class="flow__step">
+              <span class="step-no">iii</span>
+              <div>
+                <h4 data-fr="Validation de workflows" data-en="Workflow approvals">Validation de workflows</h4>
+                <p data-fr="Achat, qualité, opérations — chemin de signature clair, traces archivées." data-en="Purchase, quality, ops — clear sign-off path, archived trail.">Achat, qualité, opérations — chemin de signature clair, traces archivées.</p>
+              </div>
+              <span class="gain" data-fr="0 dossier perdu" data-en="0 lost files">0 dossier perdu</span>
+            </div>
+            <div class="flow__step">
+              <span class="step-no">iv</span>
+              <div>
+                <h4 data-fr="Alertes anomalies" data-en="Anomaly alerts">Alertes anomalies</h4>
+                <p data-fr="Données manquantes, non-conformité, écart KPI. L'équipe sait avant que ça déraille." data-en="Missing data, non-compliance, KPI drift. The team knows before things slip.">Données manquantes, non-conformité, écart KPI. L'équipe sait avant que ça déraille.</p>
+              </div>
+              <span class="gain" data-fr="−74 % d'erreurs" data-en="−74% errors">−74 % d'erreurs</span>
+            </div>
+            <div class="flow__step">
+              <span class="step-no">v</span>
+              <div>
+                <h4 data-fr="Suivi de dossiers répétitifs" data-en="Repetitive case tracking">Suivi de dossiers répétitifs</h4>
+                <p data-fr="Tableau vivant, statut auto, rappel poli au bon moment." data-en="Live board, auto status, polite nudge at the right moment.">Tableau vivant, statut auto, rappel poli au bon moment.</p>
+              </div>
+              <span class="gain" data-fr="+ marge mentale" data-en="+ headroom">+ marge mentale</span>
+            </div>
+          </div>
+
+          <div class="flow__visual">
+            <h5 data-fr="Pipeline en cours / live" data-en="Pipeline in progress / live">Pipeline en cours / live</h5>
+            <ul class="pipe">
+              <li><span class="signal"></span><b data-fr="Devis signé" data-en="Quote signed">Devis signé</b><br/><span data-fr="Coopérative Borgou — 04:12" data-en="Borgou cooperative — 04:12">Coopérative Borgou — 04:12</span></li>
+              <li><span class="signal"></span><b data-fr="Email auto envoyé" data-en="Auto email sent">Email auto envoyé</b><br/><span data-fr="Bienvenue + collecte des pièces" data-en="Welcome + document collection">Bienvenue + collecte des pièces</span></li>
+              <li><span class="signal"></span><b data-fr="Validation interne" data-en="Internal approval">Validation interne</b><br/><span data-fr="Direction qualité — en attente" data-en="Quality lead — pending">Direction qualité — en attente</span></li>
+              <li><span class="signal"></span><b data-fr="Rapport généré" data-en="Report generated">Rapport généré</b><br/><span data-fr="Synthèse hebdo — diffusée" data-en="Weekly digest — sent">Synthèse hebdo — diffusée</span></li>
+              <li><span class="signal"></span><b data-fr="Alerte écart KPI" data-en="KPI drift alert">Alerte écart KPI</b><br/><span data-fr="Humidité parcelle 04 / sous seuil" data-en="Plot 04 humidity / below threshold">Humidité parcelle 04 / sous seuil</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°04 PASTURE / LIVESTOCK ─────────── -->
+    <section class="pasture">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Élevage connecté / suivi du troupeau" data-en="Connected livestock / herd tracking">Élevage connecté / suivi du troupeau</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Le troupeau " data-en="The herd ">Le troupeau </span>
+              <em class="display-italic" data-fr="parle. " data-en="speaks. ">parle. </em>
+              <span data-fr="On l'écoute." data-en="We listen.">On l'écoute.</span>
+            </h2>
+          </div>
+        </div>
+
+        <div class="pasture__inner">
+          <div class="pasture__hud">
+            <div>
+              <h3 class="display"><span data-fr="Vaches, chèvres, volailles — " data-en="Cows, goats, poultry — ">Vaches, chèvres, volailles — </span><em data-fr="chaque tête a un identifiant." data-en="every head has an ID.">chaque tête a un identifiant.</em></h3>
+              <p data-fr="Boucles RFID, GPS de pâturage, alertes vétérinaires, suivi de poids et de naissance. La donnée transforme l'élevage en métier de précision, sans dénaturer le savoir-faire." data-en="RFID tags, grazing GPS, vet alerts, weight and birth tracking. Data turns livestock into precision craft, without erasing the know-how.">
+                Boucles RFID, GPS de pâturage, alertes vétérinaires, suivi de poids et de naissance. La donnée transforme l'élevage en métier de précision, sans dénaturer le savoir-faire.
+              </p>
+            </div>
+            <div class="stats">
+              <div data-fr="<b>312</b> têtes suivies" data-en="<b>312</b> heads tracked"><b>312</b> têtes suivies</div>
+              <div data-fr="<b>4</b> alertes/jour" data-en="<b>4</b> alerts/day"><b>4</b> alertes/jour</div>
+              <div data-fr-html="<b>−21%</b> mortalité" data-en-html="<b>−21%</b> mortality"><b>−21%</b> mortalité</div>
+            </div>
+          </div>
+
+          <div class="pasture__stage">
+            <div class="pasture__sky"></div>
+            <div class="pasture__sun"></div>
+            <div class="pasture__hills"></div>
+            <div class="pasture__ground"></div>
+
+            <!-- sensor callouts -->
+            <div class="pasture__sensor pasture__sensor--cow">
+              <div data-fr="VACHE #C-104" data-en="COW #C-104">VACHE #C-104</div>
+              <div data-fr="POIDS <span class='v'>432 KG</span>" data-en="WEIGHT <span class='v'>432 KG</span>" data-fr-html="POIDS <span class='v'>432 KG</span>" data-en-html="WEIGHT <span class='v'>432 KG</span>">POIDS <span class="v">432 KG</span></div>
+              <div data-fr-html="GESTANTE <span class='v'>OUI</span>" data-en-html="PREGNANT <span class='v'>YES</span>">GESTANTE <span class="v">OUI</span></div>
+            </div>
+            <div class="pasture__sensor pasture__sensor--goat">
+              <div data-fr="CHÈVRE #G-22" data-en="GOAT #G-22">CHÈVRE #G-22</div>
+              <div data-fr-html="STATUT <span class='v'>OK</span>" data-en-html="STATUS <span class='v'>OK</span>">STATUT <span class="v">OK</span></div>
+            </div>
+
+            <!-- cow SVG -->
+            <svg class="pasture__animal pasture__animal--cow" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <ellipse cx="100" cy="80" rx="55" ry="32" fill="#F4EFE0"/>
+              <ellipse cx="80" cy="78" rx="14" ry="9" fill="#1F2A22"/>
+              <ellipse cx="115" cy="84" rx="10" ry="6" fill="#1F2A22"/>
+              <ellipse cx="125" cy="74" rx="8" ry="5" fill="#1F2A22"/>
+              <rect x="60" y="105" width="6" height="20" fill="#1F2A22"/>
+              <rect x="80" y="105" width="6" height="20" fill="#1F2A22"/>
+              <rect x="120" y="105" width="6" height="20" fill="#1F2A22"/>
+              <rect x="140" y="105" width="6" height="20" fill="#1F2A22"/>
+              <ellipse cx="160" cy="65" rx="22" ry="18" fill="#F4EFE0"/>
+              <ellipse cx="166" cy="68" rx="6" ry="4" fill="#E8B59E"/>
+              <circle cx="156" cy="60" r="2" fill="#1F2A22"/>
+              <circle cx="172" cy="62" r="2" fill="#1F2A22"/>
+              <path d="M 152 50 Q 150 42 147 48" stroke="#1F2A22" stroke-width="2" fill="none"/>
+              <path d="M 175 50 Q 178 42 181 48" stroke="#1F2A22" stroke-width="2" fill="none"/>
+              <!-- RFID tag -->
+              <circle cx="158" cy="78" r="3" fill="#43AA8B"/>
+              <!-- tail -->
+              <path d="M 50 70 Q 30 60 30 80 L 35 82 Q 42 70 55 75" fill="#F4EFE0" stroke="#1F2A22" stroke-width="0.6"/>
+            </svg>
+            <div class="pasture__shadow" style="left: 8%; bottom: 16%;"></div>
+
+            <!-- goat SVG -->
+            <svg class="pasture__animal pasture__animal--goat" viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <ellipse cx="80" cy="60" rx="40" ry="22" fill="#E8DFC8"/>
+              <rect x="55" y="78" width="5" height="20" fill="#3D2D1E"/>
+              <rect x="70" y="78" width="5" height="20" fill="#3D2D1E"/>
+              <rect x="95" y="78" width="5" height="20" fill="#3D2D1E"/>
+              <rect x="110" y="78" width="5" height="20" fill="#3D2D1E"/>
+              <ellipse cx="125" cy="48" rx="16" ry="13" fill="#E8DFC8"/>
+              <ellipse cx="130" cy="52" rx="5" ry="3" fill="#3D2D1E"/>
+              <circle cx="120" cy="44" r="1.6" fill="#1F2A22"/>
+              <circle cx="132" cy="44" r="1.6" fill="#1F2A22"/>
+              <!-- horns -->
+              <path d="M 118 36 Q 116 26 122 24" stroke="#3D2D1E" stroke-width="2" fill="none"/>
+              <path d="M 132 36 Q 134 26 128 24" stroke="#3D2D1E" stroke-width="2" fill="none"/>
+              <!-- RFID -->
+              <circle cx="121" cy="50" r="2" fill="#43AA8B"/>
+              <!-- tail -->
+              <path d="M 40 50 L 32 46" stroke="#3D2D1E" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+
+            <!-- chicken SVG -->
+            <svg class="pasture__animal pasture__animal--chicken" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <ellipse cx="50" cy="55" rx="28" ry="20" fill="#F4EFE0"/>
+              <circle cx="72" cy="40" r="14" fill="#F4EFE0"/>
+              <path d="M 70 28 Q 72 22 74 28 Q 78 22 80 30 Q 84 24 84 32 Z" fill="#C56A3A"/>
+              <circle cx="74" cy="38" r="1.5" fill="#1F2A22"/>
+              <path d="M 84 42 L 92 44 L 84 46" fill="#E8C26A" stroke="#C56A3A" stroke-width="0.4"/>
+              <rect x="42" y="74" width="3" height="14" fill="#E8C26A"/>
+              <rect x="52" y="74" width="3" height="14" fill="#E8C26A"/>
+              <path d="M 22 50 Q 14 54 18 60 Q 24 56 26 58" fill="#F4EFE0" stroke="#1F2A22" stroke-width="0.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°05 GREENHOUSE / IRRIGATION ─────────── -->
+    <section class="greenhouse">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Cultures + irrigation pilotée" data-en="Cropping + piloted irrigation">Cultures + irrigation pilotée</span>
+            <h2 class="section-head__title display">
+              <span data-fr="L'eau au bon endroit, " data-en="Water in the right place, ">L'eau au bon endroit, </span>
+              <em class="display-italic" data-fr="au bon moment." data-en="at the right time.">au bon moment.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="greenhouse__layout">
+          <div class="greenhouse__copy">
+            <h3 class="display"><span data-fr="Sondes au sol, " data-en="Soil probes, ">Sondes au sol, </span><em data-fr="vannes connectées." data-en="connected valves.">vannes connectées.</em></h3>
+            <p data-fr="Les capteurs lisent l'humidité, la température et la lumière. Les vannes s'ouvrent quand le seuil est franchi, pas avant. L'eau cesse d'être un coût flottant pour devenir une décision tracée." data-en="Sensors read moisture, temperature and light. Valves open at threshold, not before. Water stops being a floating cost and becomes a tracked decision.">
+              Les capteurs lisent l'humidité, la température et la lumière. Les vannes s'ouvrent quand le seuil est franchi, pas avant. L'eau cesse d'être un coût flottant pour devenir une décision tracée.
+            </p>
+            <div class="greenhouse__metrics">
+              <div><span class="name" data-fr="Économie d'eau" data-en="Water savings">Économie d'eau</span><span class="val">−38%</span></div>
+              <div><span class="name" data-fr="Rendement moyen" data-en="Average yield">Rendement moyen</span><span class="val">+22%</span></div>
+              <div><span class="name" data-fr="Heures de pompage" data-en="Pump hours">Heures de pompage</span><span class="val">−54%</span></div>
+              <div><span class="name" data-fr="ROI capteurs" data-en="Sensor ROI">ROI capteurs</span><span class="val">8 mois</span></div>
+            </div>
+            <a href="pages/contact.html" class="btn btn--ghost"><span data-fr="Demander un audit" data-en="Request an audit">Demander un audit</span><span class="arrow">→</span></a>
+          </div>
+
+          <div class="greenhouse__stage" aria-hidden="true">
+            <div class="greenhouse__beams"></div>
+
+            <!-- irrigation pipe -->
+            <div class="greenhouse__pipe"></div>
+
+            <!-- nozzles + drops -->
+            <div class="greenhouse__nozzle" style="left: 12%;"></div><div class="greenhouse__drop" style="left: calc(12% - 1px); animation-delay: 0s;"></div>
+            <div class="greenhouse__nozzle" style="left: 28%;"></div><div class="greenhouse__drop" style="left: calc(28% - 1px); animation-delay: 0.4s;"></div>
+            <div class="greenhouse__nozzle" style="left: 44%;"></div><div class="greenhouse__drop" style="left: calc(44% - 1px); animation-delay: 0.8s;"></div>
+            <div class="greenhouse__nozzle" style="left: 60%;"></div><div class="greenhouse__drop" style="left: calc(60% - 1px); animation-delay: 1.2s;"></div>
+            <div class="greenhouse__nozzle" style="left: 76%;"></div><div class="greenhouse__drop" style="left: calc(76% - 1px); animation-delay: 1.6s;"></div>
+            <div class="greenhouse__nozzle" style="left: 88%;"></div><div class="greenhouse__drop" style="left: calc(88% - 1px); animation-delay: 2s;"></div>
+
+            <!-- plants -->
+            <div class="greenhouse__row">
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+              <div class="plant"><span class="leaf leaf--top"></span><span class="leaf leaf--l"></span><span class="leaf leaf--r"></span><span class="fruit"></span><span class="stem"></span></div>
+            </div>
+
+            <div class="greenhouse__soil"></div>
+
+            <!-- control panel -->
+            <div class="greenhouse__ctrl">
+              <div class="row"><span data-fr="Seuil humidité" data-en="Moisture threshold">Seuil humidité</span><b>54%</b></div>
+              <div class="row"><span data-fr="Vannes ouvertes" data-en="Valves open">Vannes ouvertes</span><b>3 / 6</b></div>
+              <div class="row"><span data-fr="Pompage" data-en="Pump">Pompage</span><b>2.4 m³/h</b></div>
+              <div class="led" data-fr="SYSTÈME ACTIF" data-en="SYSTEM LIVE">SYSTÈME ACTIF</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°06 TRACTEUR ─────────── -->
+    <section class="tractor-sweep">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Mécanisation connectée / parcelle vivante" data-en="Connected mechanization / living plot">Mécanisation connectée / parcelle vivante</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Le tracteur " data-en="The tractor ">Le tracteur </span>
+              <em class="display-italic" data-fr="raconte la parcelle." data-en="reports the plot.">raconte la parcelle.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="tractor-stage" aria-hidden="true">
+          <div class="tractor-stage__sky"></div>
+          <div class="tractor-stage__field"></div>
+          <div class="tractor-stage__furrows"></div>
+
+          <div class="tractor-stage__hud">
+            <div class="row"><span data-fr="PARCELLE BJ-04 · COTON" data-en="PLOT BJ-04 · COTTON">PARCELLE BJ-04 · COTON</span></div>
+            <div class="row" data-fr-html="VITESSE <b>7.4 km/h</b>" data-en-html="SPEED <b>7.4 km/h</b>">VITESSE <b>7.4 km/h</b></div>
+            <div class="row" data-fr-html="HECTARES <b>4.2 / 12</b>" data-en-html="HECTARES <b>4.2 / 12</b>">HECTARES <b>4.2 / 12</b></div>
+            <div class="row" data-fr-html="GAZOIL <b>−18%</b>" data-en-html="DIESEL <b>−18%</b>">GAZOIL <b>−18%</b></div>
+          </div>
+
+          <div class="tractor">
+            <div class="tractor__smoke"></div>
+            <svg viewBox="0 0 240 140" xmlns="http://www.w3.org/2000/svg">
+              <!-- chassis -->
+              <rect class="body" x="40" y="55" width="120" height="40" rx="6"/>
+              <!-- cabin -->
+              <rect class="cabin" x="60" y="20" width="60" height="40" rx="4"/>
+              <!-- glass -->
+              <rect class="glass" x="68" y="28" width="44" height="26" rx="2"/>
+              <!-- stripe -->
+              <rect class="stripe" x="40" y="80" width="120" height="4"/>
+              <!-- exhaust -->
+              <rect class="stack" x="48" y="8" width="6" height="22"/>
+              <!-- engine bonnet -->
+              <rect class="body" x="125" y="65" width="50" height="30" rx="4"/>
+              <!-- headlight -->
+              <circle cx="172" cy="78" r="4" fill="#E8C26A"/>
+              <!-- big rear wheel -->
+              <g class="tractor__wheel" style="transform-origin: 70px 110px;">
+                <circle class="wheel" cx="70" cy="110" r="22"/>
+                <circle class="hub" cx="70" cy="110" r="6"/>
+                <line x1="70" y1="92" x2="70" y2="128" stroke="#E8DFC8" stroke-width="2"/>
+                <line x1="52" y1="110" x2="88" y2="110" stroke="#E8DFC8" stroke-width="2"/>
+                <line x1="58" y1="98" x2="82" y2="122" stroke="#E8DFC8" stroke-width="2"/>
+                <line x1="58" y1="122" x2="82" y2="98" stroke="#E8DFC8" stroke-width="2"/>
+              </g>
+              <!-- small front wheel -->
+              <g class="tractor__wheel" style="transform-origin: 158px 116px; animation-duration: 0.35s;">
+                <circle class="wheel" cx="158" cy="116" r="14"/>
+                <circle class="hub" cx="158" cy="116" r="4"/>
+                <line x1="158" y1="104" x2="158" y2="128" stroke="#E8DFC8" stroke-width="1.4"/>
+                <line x1="146" y1="116" x2="170" y2="116" stroke="#E8DFC8" stroke-width="1.4"/>
+              </g>
+              <!-- antenna -->
+              <line x1="120" y1="20" x2="120" y2="6" stroke="#43AA8B" stroke-width="1.2"/>
+              <circle cx="120" cy="6" r="2" fill="#43AA8B"/>
+              <!-- door details -->
+              <rect x="86" y="34" width="2" height="22" fill="rgba(0,0,0,0.3)"/>
+            </svg>
+          </div>
+
+          <div class="tractor-stage__route">
+            <div data-fr-html="ITINÉRAIRE <span class='v'>OPTIMISÉ</span>" data-en-html="ROUTE <span class='v'>OPTIMIZED</span>">ITINÉRAIRE <span class="v">OPTIMISÉ</span></div>
+            <div data-fr-html="TEMPS RESTANT <span class='v'>1H 12</span>" data-en-html="TIME LEFT <span class='v'>1H 12</span>">TEMPS RESTANT <span class="v">1H 12</span></div>
+          </div>
+        </div>
+
+        <p class="lede" style="margin-top: 24px; max-width: 60ch;" data-fr="GPS RTK, télémétrie moteur, planification d'itinéraires : le tracteur devient une source de données aussi précieuse que la récolte qu'il prépare." data-en="RTK GPS, engine telemetry, route planning: the tractor becomes a data source as valuable as the harvest it prepares.">
+          GPS RTK, télémétrie moteur, planification d'itinéraires : le tracteur devient une source de données aussi précieuse que la récolte qu'il prépare.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─────────── N°07 DIGITAL TIMELINE ─────────── -->
+    <section class="timeline">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Trajectoire de digitalisation" data-en="Digitalization journey">Trajectoire de digitalisation</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Cinq jalons " data-en="Five milestones ">Cinq jalons </span>
+              <em class="display-italic" data-fr="entre la fourche et le tableau de bord." data-en="from fork to dashboard.">entre la fourche et le tableau de bord.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="timeline__rail">
+          <div class="timeline__node">
+            <span class="ix">JALON 01</span>
+            <h4 data-fr="Cadrage terrain" data-en="Field discovery">Cadrage terrain</h4>
+            <p data-fr="On marche la parcelle, on écoute les équipes, on cartographie les points de friction." data-en="We walk the plot, we listen to the teams, we map friction points.">On marche la parcelle, on écoute les équipes, on cartographie les points de friction.</p>
+          </div>
+          <div class="timeline__node">
+            <span class="ix">JALON 02</span>
+            <h4 data-fr="Numérisation" data-en="Digitization">Numérisation</h4>
+            <p data-fr="Saisie remplacée par mobile, papier remplacé par formulaire, registres unifiés." data-en="Mobile replaces paper, registers consolidated, capture digitized.">Saisie remplacée par mobile, papier remplacé par formulaire, registres unifiés.</p>
+          </div>
+          <div class="timeline__node">
+            <span class="ix">JALON 03</span>
+            <h4 data-fr="Automatisation" data-en="Automation">Automatisation</h4>
+            <p data-fr="Tâches répétitives confiées au système. Les équipes décident, ne ressaisissent plus." data-en="Repetitive tasks handed to the system. Teams decide, stop re-typing.">Tâches répétitives confiées au système. Les équipes décident, ne ressaisissent plus.</p>
+          </div>
+          <div class="timeline__node">
+            <span class="ix">JALON 04</span>
+            <h4 data-fr="Décision data" data-en="Data decisions">Décision data</h4>
+            <p data-fr="Dashboards et maps deviennent l'organe central de pilotage des opérations." data-en="Dashboards and maps become the central nervous system of operations.">Dashboards et maps deviennent l'organe central de pilotage des opérations.</p>
+          </div>
+          <div class="timeline__node">
+            <span class="ix">JALON 05</span>
+            <h4 data-fr="IA opérationnelle" data-en="Operational AI">IA opérationnelle</h4>
+            <p data-fr="L'IA répond, synthétise, anticipe. Les équipes regagnent du terrain et de la marge mentale." data-en="AI answers, summarizes, anticipates. Teams regain field time and headroom.">L'IA répond, synthétise, anticipe. Les équipes regagnent du terrain et de la marge mentale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°08 CLIMAT / METEO ─────────── -->
+    <section class="climate">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Climat / lecture des risques" data-en="Climate / reading risk">Climat / lecture des risques</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Lire le ciel " data-en="Read the sky ">Lire le ciel </span>
+              <em class="display-italic" data-fr="avant qu'il ne décide pour vous." data-en="before it decides for you.">avant qu'il ne décide pour vous.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="climate__layout">
+          <div class="weather">
+            <div class="weather__head">
+              <h4 data-fr="Cotonou — Bénin · Parcelle BJ-04" data-en="Cotonou — Benin · Plot BJ-04">Cotonou — Bénin · Parcelle BJ-04</h4>
+              <span class="live">● LIVE</span>
+            </div>
+            <div class="weather__icon">
+              <span class="sun"></span>
+              <span class="cloud"></span>
+            </div>
+            <div class="weather__main">
+              <div class="weather__temp">29<em>°</em></div>
+              <div class="weather__desc">
+                <span class="place" data-fr="Soleil voilé" data-en="Hazy sun">Soleil voilé</span>
+                <span class="cond" data-fr="Vent SO 12 km/h · pluie probable 22%" data-en="SW wind 12 km/h · rain prob. 22%">Vent SO 12 km/h · pluie probable 22%</span>
+              </div>
+            </div>
+
+            <div class="weather__forecast">
+              <div class="weather__day"><div class="day" data-fr="LUN" data-en="MON">LUN</div><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg><div class="deg">31<em>°</em></div></div>
+              <div class="weather__day"><div class="day" data-fr="MAR" data-en="TUE">MAR</div><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 14a4 4 0 0 1 1-7.9A5 5 0 0 1 17 8a4 4 0 0 1-1 7.9z"/></svg><div class="deg">28<em>°</em></div></div>
+              <div class="weather__day"><div class="day" data-fr="MER" data-en="WED">MER</div><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 14a4 4 0 0 1 1-7.9A5 5 0 0 1 17 8a4 4 0 0 1-1 7.9z"/><path d="M9 17l-2 4M13 17l-2 4M17 17l-2 4"/></svg><div class="deg">26<em>°</em></div></div>
+              <div class="weather__day"><div class="day" data-fr="JEU" data-en="THU">JEU</div><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 14a4 4 0 0 1 1-7.9A5 5 0 0 1 17 8a4 4 0 0 1-1 7.9z"/></svg><div class="deg">29<em>°</em></div></div>
+              <div class="weather__day"><div class="day" data-fr="VEN" data-en="FRI">VEN</div><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg><div class="deg">30<em>°</em></div></div>
+            </div>
+
+            <div class="weather__bars">
+              <div class="weather__bar"><span class="lbl" data-fr="HUMIDITÉ" data-en="HUMIDITY">HUMIDITÉ</span><div class="track"><div class="fill" style="width: 62%;"></div></div><span class="val">62%</span></div>
+              <div class="weather__bar"><span class="lbl" data-fr="VENT" data-en="WIND">VENT</span><div class="track"><div class="fill" style="width: 30%;"></div></div><span class="val">12 km/h</span></div>
+              <div class="weather__bar"><span class="lbl" data-fr="UV" data-en="UV">UV</span><div class="track"><div class="fill" style="width: 80%;"></div></div><span class="val">8 / 11</span></div>
+            </div>
+          </div>
+
+          <div class="climate__copy">
+            <h3 class="display"><span data-fr="Pluies, sécheresse, " data-en="Rain, drought, ">Pluies, sécheresse, </span><em data-fr="vague de chaleur." data-en="heatwave.">vague de chaleur.</em></h3>
+            <p data-fr="Les bulletins météo et les prévisions saisonnières sont injectés dans vos outils d'irrigation, vos rappels de semis et vos plans d'évacuation. Le climat n'est plus une surprise mais une variable pilotée." data-en="Weather bulletins and seasonal forecasts are injected into your irrigation tools, sowing reminders and evacuation plans. Climate is no longer a surprise — it's a piloted variable.">
+              Les bulletins météo et les prévisions saisonnières sont injectés dans vos outils d'irrigation, vos rappels de semis et vos plans d'évacuation. Le climat n'est plus une surprise mais une variable pilotée.
+            </p>
+            <div class="climate__alerts">
+              <div class="climate__alert"><span class="dot dot--ok"></span><span class="name" data-fr="Conditions favorables · semis maïs Z2" data-en="Favorable · maize sowing Z2">Conditions favorables · semis maïs Z2</span><span class="when">04:11</span></div>
+              <div class="climate__alert"><span class="dot dot--warn"></span><span class="name" data-fr="Pluie probable · différer traitement Z3" data-en="Rain likely · defer treatment Z3">Pluie probable · différer traitement Z3</span><span class="when">06:42</span></div>
+              <div class="climate__alert"><span class="dot dot--bad"></span><span class="name" data-fr="Vague chaleur 38° · arrêter pulvérisation" data-en="Heatwave 38° · stop spraying">Vague chaleur 38° · arrêter pulvérisation</span><span class="when">12:00</span></div>
+              <div class="climate__alert"><span class="dot dot--ok"></span><span class="name" data-fr="Vent calme · sortie drone autorisée" data-en="Calm wind · drone clearance">Vent calme · sortie drone autorisée</span><span class="when">15:30</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°09 PERSONAS / IA ─────────── -->
+    <section class="personas">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="IA appliquée / par persona" data-en="Applied AI / by persona">IA appliquée / par persona</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Une IA installée " data-en="AI installed ">Une IA installée </span>
+              <em class="display-italic" data-fr="comme un collègue calme." data-en="as a quiet colleague.">comme un collègue calme.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="personas__grid">
+          <article class="persona">
+            <div class="persona__photo">
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=80" alt="Producteurs en champ de coton" loading="lazy" />
+            </div>
+            <div class="persona__inner">
+              <div class="persona__head"><h3 data-fr="Coopérative & faîtière" data-en="Cooperative & federation">Coopérative & faîtière</h3><span class="persona__id">PER / 01</span></div>
+              <div class="persona__body">
+                <div class="persona__col">
+                  <h4 data-fr="Tâches" data-en="Tasks">Tâches</h4>
+                  <ul>
+                    <li data-fr="Communication producteurs en plusieurs langues" data-en="Multi-language outreach to producers">Communication producteurs en plusieurs langues</li>
+                    <li data-fr="Synthèse des comptes-rendus terrain" data-en="Field report digests">Synthèse des comptes-rendus terrain</li>
+                    <li data-fr="Préparation des assemblées" data-en="General assembly prep">Préparation des assemblées</li>
+                  </ul>
+                </div>
+                <div class="persona__col">
+                  <h4 data-fr="Avantages" data-en="Benefits">Avantages</h4>
+                  <ul>
+                    <li data-fr="Décisions plus rapides" data-en="Faster decisions">Décisions plus rapides</li>
+                    <li data-fr="Producteurs mieux servis" data-en="Better-served producers">Producteurs mieux servis</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="persona">
+            <div class="persona__photo">
+              <img src="https://images.unsplash.com/photo-1595005577107-2f7baddebf60?auto=format&fit=crop&w=1400&q=80" alt="Ligne d'agroalimentaire et conditionnement" loading="lazy" />
+            </div>
+            <div class="persona__inner">
+              <div class="persona__head"><h3 data-fr="Entreprise agroalimentaire" data-en="Agribusiness">Entreprise agroalimentaire</h3><span class="persona__id">PER / 02</span></div>
+              <div class="persona__body">
+                <div class="persona__col">
+                  <h4 data-fr="Tâches" data-en="Tasks">Tâches</h4>
+                  <ul>
+                    <li data-fr="Reporting qualité hebdomadaire" data-en="Weekly QA reporting">Reporting qualité hebdomadaire</li>
+                    <li data-fr="Support client multicanal" data-en="Multi-channel customer support">Support client multicanal</li>
+                    <li data-fr="Cahier des charges fournisseur" data-en="Supplier specifications">Cahier des charges fournisseur</li>
+                  </ul>
+                </div>
+                <div class="persona__col">
+                  <h4 data-fr="Avantages" data-en="Benefits">Avantages</h4>
+                  <ul>
+                    <li data-fr="Productivité doublée sans embaucher" data-en="Productivity doubled without hiring">Productivité doublée sans embaucher</li>
+                    <li data-fr="Réponse client en heures, pas en jours" data-en="Customer response in hours, not days">Réponse client en heures, pas en jours</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="persona">
+            <div class="persona__photo">
+              <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1400&q=80" alt="ONG en mission terrain" loading="lazy" />
+            </div>
+            <div class="persona__inner">
+              <div class="persona__head"><h3 data-fr="ONG, cabinet & programme" data-en="NGO, consultancy & programme">ONG, cabinet & programme</h3><span class="persona__id">PER / 03</span></div>
+              <div class="persona__body">
+                <div class="persona__col">
+                  <h4 data-fr="Tâches" data-en="Tasks">Tâches</h4>
+                  <ul>
+                    <li data-fr="Rapports projet trimestriels" data-en="Quarterly project reports">Rapports projet trimestriels</li>
+                    <li data-fr="Capitalisation d'apprentissages" data-en="Lessons-learned capture">Capitalisation d'apprentissages</li>
+                    <li data-fr="Réponses bailleurs structurées" data-en="Structured donor responses">Réponses bailleurs structurées</li>
+                  </ul>
+                </div>
+                <div class="persona__col">
+                  <h4 data-fr="Avantages" data-en="Benefits">Avantages</h4>
+                  <ul>
+                    <li data-fr="Délais bailleurs respectés" data-en="Donor deadlines met">Délais bailleurs respectés</li>
+                    <li data-fr="Standard documentaire homogène" data-en="Consistent document standard">Standard documentaire homogène</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="persona">
+            <div class="persona__photo">
+              <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80" alt="Bureau institutionnel et tableau de bord" loading="lazy" />
+            </div>
+            <div class="persona__inner">
+              <div class="persona__head"><h3 data-fr="Institution & ministère" data-en="Institution & ministry">Institution & ministère</h3><span class="persona__id">PER / 04</span></div>
+              <div class="persona__body">
+                <div class="persona__col">
+                  <h4 data-fr="Tâches" data-en="Tasks">Tâches</h4>
+                  <ul>
+                    <li data-fr="Notes de pilotage stratégique" data-en="Strategic steering notes">Notes de pilotage stratégique</li>
+                    <li data-fr="Consolidation de données régionales" data-en="Regional data consolidation">Consolidation de données régionales</li>
+                    <li data-fr="Préparation cabinet et ministre" data-en="Cabinet and minister briefs">Préparation cabinet et ministre</li>
+                  </ul>
+                </div>
+                <div class="persona__col">
+                  <h4 data-fr="Avantages" data-en="Benefits">Avantages</h4>
+                  <ul>
+                    <li data-fr="Décision sur preuves" data-en="Evidence-based decisions">Décision sur preuves</li>
+                    <li data-fr="Communication publique nette" data-en="Crisp public communication">Communication publique nette</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── TABLET FARMER ─────────── -->
+    <section class="tablet-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Le fermier digitalisé / tablette" data-en="The digital farmer / tablet">Le fermier digitalisé / tablette</span>
+            <h2 class="section-head__title display">
+              <span data-fr="La parcelle " data-en="The plot ">La parcelle </span>
+              <em class="display-italic" data-fr="dans la poche." data-en="in your pocket.">dans la poche.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="tablet-section__layout">
+          <div class="tablet-section__copy">
+            <h3 class="display"><span data-fr="Une " data-en="One ">Une </span><em data-fr="tablette" data-en="tablet">tablette</em><span data-fr=", trois écrans, toute la ferme." data-en=", three screens, the whole farm.">, trois écrans, toute la ferme.</span></h3>
+            <p data-fr="Météo, NDVI, prix de vente, alertes capteurs, planning d'irrigation, suivi de troupeau. Le fermier ne quitte plus le terrain pour piloter — il pilote depuis le terrain." data-en="Weather, NDVI, market prices, sensor alerts, irrigation planning, livestock tracking. The farmer no longer leaves the field to manage — they manage from the field.">
+              Météo, NDVI, prix de vente, alertes capteurs, planning d'irrigation, suivi de troupeau. Le fermier ne quitte plus le terrain pour piloter — il pilote depuis le terrain.
+            </p>
+            <div class="tablet-section__chips">
+              <span data-fr="Hors-ligne" data-en="Offline">Hors-ligne</span>
+              <span data-fr="Multilingue" data-en="Multi-lingual">Multilingue</span>
+              <span data-fr="WhatsApp natif" data-en="Native WhatsApp">WhatsApp natif</span>
+              <span data-fr="Synchro 4G" data-en="4G sync">Synchro 4G</span>
+              <span data-fr="Photo IA" data-en="AI photo">Photo IA</span>
+            </div>
+            <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--fg-3); text-transform: uppercase; margin-top: 8px;" data-fr="Astuce · survolez la scène pour voir la tablette se redresser" data-en="Tip · hover the scene to see the tablet straighten up">Astuce · survolez la scène pour voir la tablette se redresser</p>
+          </div>
+
+          <div class="field-stage" aria-label="Fermier sur sa parcelle avec une tablette connectée">
+            <div class="field-stage__sun"></div>
+            <div class="field-stage__rows"></div>
+
+            <div class="field-stage__pop field-stage__pop--alpha"><span data-fr="NDVI parcelle Z2" data-en="Plot Z2 NDVI">NDVI parcelle Z2</span> · <b>0.78</b></div>
+            <div class="field-stage__pop field-stage__pop--beta"><span data-fr="Pluie 22% à 16h" data-en="Rain 22% at 4pm">Pluie 22% à 16h</span></div>
+            <div class="field-stage__pop field-stage__pop--gamma"><span data-fr="Prix anacarde" data-en="Cashew price">Prix anacarde</span> · <b>+8%</b></div>
+
+            <svg class="field-stage__farmer" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <ellipse cx="100" cy="270" rx="62" ry="8" fill="rgba(0,0,0,0.35)"/>
+              <rect x="76" y="180" width="18" height="80" rx="4" fill="#3D2D1E"/>
+              <rect x="106" y="180" width="18" height="80" rx="4" fill="#3D2D1E"/>
+              <ellipse cx="85" cy="262" rx="14" ry="6" fill="#1F1812"/>
+              <ellipse cx="115" cy="262" rx="14" ry="6" fill="#1F1812"/>
+              <path d="M 60 110 Q 60 100 70 96 L 130 96 Q 140 100 140 110 L 138 188 Q 100 196 62 188 Z" fill="#43AA8B"/>
+              <path d="M 60 110 Q 50 130 56 160 Q 60 175 70 175 Q 75 168 72 158 Q 68 130 70 112 Z" fill="#43AA8B"/>
+              <path d="M 140 110 Q 154 124 156 150 L 162 184 Q 156 192 144 188 L 138 158 Q 138 130 140 112 Z" fill="#43AA8B"/>
+              <line x1="100" y1="110" x2="100" y2="180" stroke="rgba(0,0,0,0.18)" stroke-width="1.4"/>
+              <path d="M 86 96 L 100 110 L 114 96 Z" fill="#2D7A60"/>
+              <ellipse cx="100" cy="74" rx="22" ry="24" fill="#C68B5C"/>
+              <path d="M 80 60 Q 100 48 120 60 L 122 70 Q 100 64 78 70 Z" fill="#2D2018"/>
+              <ellipse cx="100" cy="50" rx="36" ry="6" fill="#7C5A3A"/>
+              <path d="M 80 50 Q 100 38 120 50 L 116 28 Q 100 24 84 28 Z" fill="#7C5A3A"/>
+              <rect x="80" y="48" width="40" height="3" fill="#43AA8B"/>
+              <circle cx="92" cy="76" r="1.6" fill="#1F1812"/>
+              <circle cx="108" cy="76" r="1.6" fill="#1F1812"/>
+              <path d="M 94 86 Q 100 90 106 86" stroke="#1F1812" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <ellipse cx="68" cy="178" rx="9" ry="6" fill="#C68B5C"/>
+              <path d="M 156 184 L 175 168 L 178 162 L 174 156 Q 168 158 162 168 L 156 178 Z" fill="#C68B5C"/>
+            </svg>
+
+            <div class="tablet-screen" aria-hidden="true">
+              <div class="tablet-screen__chrome">
+                <span>KIJANILAB · FIELD</span>
+                <span class="live">LIVE</span>
+              </div>
+              <div class="tablet-screen__title">
+                <span data-fr="Parcelle " data-en="Plot ">Parcelle </span>
+                <em>BJ-04 · Coton</em>
+              </div>
+              <div class="tablet-screen__chart">
+                <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+                  <line class="grid-line" x1="0" y1="14" x2="200" y2="14"/>
+                  <line class="grid-line" x1="0" y1="35" x2="200" y2="35"/>
+                  <line class="grid-line" x1="0" y1="56" x2="200" y2="56"/>
+                  <path class="area" d="M 0 70 L 0 50 C 30 42, 60 36, 90 30 S 150 24, 200 14 L 200 70 Z"/>
+                  <path class="line" d="M 0 50 C 30 42, 60 36, 90 30 S 150 24, 200 14"/>
+                </svg>
+              </div>
+              <div class="tablet-screen__stats">
+                <div>NDVI<b>0.78</b></div>
+                <div>HUM<b>62%</b></div>
+                <div>TMP<b>28°</b></div>
+                <div>UV<b>8</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── MARKET WOMEN ─────────── -->
+    <section class="market-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Marché vivant / productrices &amp; acheteurs" data-en="Live market / producers &amp; buyers">Marché vivant / productrices & acheteurs</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Le marché reste " data-en="The market stays ">Le marché reste </span>
+              <em class="display-italic" data-fr="le moteur — on lui ajoute la lumière digitale." data-en="the engine — we add the digital light.">le moteur — on lui ajoute la lumière digitale.</em>
+            </h2>
+          </div>
+        </div>
+
+        <p class="lede" style="max-width: 70ch; margin: 0 0 28px;" data-fr="Tomates, ananas, karité, manioc, maïs : les productrices ouest-africaines portent la chaîne de valeur. KijaniLab livre les outils — paiement mobile, prix de référence, traçabilité QR, micro-commerce — pour qu'elles vendent mieux, plus loin, à un meilleur prix." data-en="Tomatoes, pineapples, shea, cassava, maize: West-African women producers carry the value chain. KijaniLab ships the tools — mobile payment, reference prices, QR traceability, micro-commerce — so they sell better, farther, at a fairer price.">
+          Tomates, ananas, karité, manioc, maïs : les productrices ouest-africaines portent la chaîne de valeur. KijaniLab livre les outils — paiement mobile, prix de référence, traçabilité QR, micro-commerce — pour qu'elles vendent mieux, plus loin, à un meilleur prix.
+        </p>
+
+        <div class="market-stage" aria-label="Marché de productrices agricoles">
+          <div class="market-stage__sky"></div>
+          <div class="market-stage__sun"></div>
+          <div class="market-stage__ground"></div>
+
+          <div class="market-pop market-pop--a"><span data-fr="Tomate / kg" data-en="Tomato / kg">Tomate / kg</span> · <b>450 FCFA</b></div>
+          <div class="market-pop market-pop--b"><span data-fr="Ananas pièce" data-en="Pineapple ea">Ananas pièce</span> · <b>800</b></div>
+          <div class="market-pop market-pop--c"><span data-fr="Karité brut" data-en="Shea raw">Karité brut</span> · <b>+12%</b></div>
+
+          <svg class="market-stall market-stall--alpha" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 30 80 Q 120 30 210 80 L 210 86 L 30 86 Z" fill="#C56A3A"/>
+            <line x1="60" y1="86" x2="60" y2="58" stroke="#A85A2D" stroke-width="0.8"/>
+            <line x1="100" y1="86" x2="100" y2="44" stroke="#A85A2D" stroke-width="0.8"/>
+            <line x1="140" y1="86" x2="140" y2="40" stroke="#A85A2D" stroke-width="0.8"/>
+            <line x1="180" y1="86" x2="180" y2="58" stroke="#A85A2D" stroke-width="0.8"/>
+            <rect x="118" y="86" width="4" height="80" fill="#7C5A3A"/>
+            <rect x="20" y="166" width="200" height="14" rx="2" fill="#7C5A3A"/>
+            <rect x="20" y="180" width="200" height="6" fill="#5A3D26"/>
+            <ellipse cx="55" cy="158" rx="32" ry="10" fill="#3D2D1E"/>
+            <circle cx="40" cy="148" r="9" fill="#D63A2A"/>
+            <circle cx="56" cy="146" r="9" fill="#E5462E"/>
+            <circle cx="72" cy="148" r="9" fill="#D63A2A"/>
+            <circle cx="48" cy="138" r="8" fill="#E5462E"/>
+            <circle cx="66" cy="136" r="8" fill="#D63A2A"/>
+            <ellipse cx="125" cy="158" rx="28" ry="9" fill="#3D2D1E"/>
+            <ellipse cx="115" cy="148" rx="8" ry="9" fill="#E8C26A"/>
+            <ellipse cx="130" cy="146" rx="8" ry="9" fill="#E8C26A"/>
+            <ellipse cx="142" cy="148" rx="8" ry="9" fill="#D9A653"/>
+            <ellipse cx="110" cy="222" rx="44" ry="14" fill="rgba(0,0,0,0.25)"/>
+            <path d="M 80 200 Q 80 184 92 180 L 128 180 Q 140 184 140 200 L 142 232 L 78 232 Z" fill="#9C3B7A"/>
+            <circle cx="92" cy="200" r="2" fill="#E8C26A"/>
+            <circle cx="108" cy="208" r="2" fill="#E8C26A"/>
+            <circle cx="124" cy="200" r="2" fill="#E8C26A"/>
+            <circle cx="100" cy="216" r="2" fill="#E8C26A"/>
+            <circle cx="118" cy="220" r="2" fill="#E8C26A"/>
+            <ellipse cx="78" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <ellipse cx="142" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <circle cx="110" cy="160" r="14" fill="#5A3D26"/>
+            <path d="M 92 158 Q 110 138 128 158 Q 134 144 126 132 Q 110 124 94 132 Q 86 144 92 158 Z" fill="#FACC4D"/>
+            <path d="M 96 142 Q 110 132 124 142" stroke="#C56A3A" stroke-width="1.5" fill="none"/>
+            <circle cx="105" cy="160" r="1" fill="#1F1812"/>
+            <circle cx="115" cy="160" r="1" fill="#1F1812"/>
+            <path d="M 106 168 Q 110 170 114 168" stroke="#1F1812" stroke-width="0.8" fill="none"/>
+          </svg>
+
+          <svg class="market-stall market-stall--beta" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 30 80 Q 120 30 210 80 L 210 86 L 30 86 Z" fill="#43AA8B"/>
+            <line x1="60" y1="86" x2="60" y2="58" stroke="#2D7A60" stroke-width="0.8"/>
+            <line x1="100" y1="86" x2="100" y2="44" stroke="#2D7A60" stroke-width="0.8"/>
+            <line x1="140" y1="86" x2="140" y2="40" stroke="#2D7A60" stroke-width="0.8"/>
+            <line x1="180" y1="86" x2="180" y2="58" stroke="#2D7A60" stroke-width="0.8"/>
+            <rect x="118" y="86" width="4" height="80" fill="#7C5A3A"/>
+            <rect x="20" y="166" width="200" height="14" rx="2" fill="#7C5A3A"/>
+            <rect x="20" y="180" width="200" height="6" fill="#5A3D26"/>
+            <ellipse cx="60" cy="156" rx="14" ry="18" fill="#E8B854"/>
+            <path d="M 50 144 Q 56 124 60 138 Q 64 122 70 144 Z" fill="#3A6E2A"/>
+            <ellipse cx="92" cy="158" rx="14" ry="18" fill="#E8B854"/>
+            <path d="M 82 146 Q 88 126 92 140 Q 96 124 102 146 Z" fill="#3A6E2A"/>
+            <path d="M 130 156 Q 140 138 162 142 Q 158 158 138 162 Z" fill="#F4D54A"/>
+            <ellipse cx="195" cy="158" rx="11" ry="9" fill="#E5462E"/>
+            <ellipse cx="180" cy="160" rx="10" ry="8" fill="#E8C26A"/>
+            <ellipse cx="110" cy="222" rx="44" ry="14" fill="rgba(0,0,0,0.25)"/>
+            <path d="M 80 200 Q 80 184 92 180 L 128 180 Q 140 184 140 200 L 142 232 L 78 232 Z" fill="#3F7E44"/>
+            <circle cx="92" cy="200" r="2" fill="#FACC4D"/>
+            <circle cx="108" cy="208" r="2" fill="#FACC4D"/>
+            <circle cx="124" cy="200" r="2" fill="#FACC4D"/>
+            <circle cx="100" cy="216" r="2" fill="#FACC4D"/>
+            <ellipse cx="78" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <ellipse cx="142" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <circle cx="110" cy="160" r="14" fill="#5A3D26"/>
+            <path d="M 92 158 Q 110 138 128 158 Q 134 144 126 132 Q 110 124 94 132 Q 86 144 92 158 Z" fill="#E5462E"/>
+            <circle cx="105" cy="160" r="1" fill="#1F1812"/>
+            <circle cx="115" cy="160" r="1" fill="#1F1812"/>
+            <path d="M 106 168 Q 110 170 114 168" stroke="#1F1812" stroke-width="0.8" fill="none"/>
+          </svg>
+
+          <svg class="market-stall market-stall--gamma" viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M 30 80 Q 120 30 210 80 L 210 86 L 30 86 Z" fill="#7DA86A"/>
+            <line x1="60" y1="86" x2="60" y2="58" stroke="#3F7E44" stroke-width="0.8"/>
+            <line x1="100" y1="86" x2="100" y2="44" stroke="#3F7E44" stroke-width="0.8"/>
+            <line x1="140" y1="86" x2="140" y2="40" stroke="#3F7E44" stroke-width="0.8"/>
+            <line x1="180" y1="86" x2="180" y2="58" stroke="#3F7E44" stroke-width="0.8"/>
+            <rect x="118" y="86" width="4" height="80" fill="#7C5A3A"/>
+            <rect x="20" y="166" width="200" height="14" rx="2" fill="#7C5A3A"/>
+            <rect x="20" y="180" width="200" height="6" fill="#5A3D26"/>
+            <ellipse cx="55" cy="160" rx="28" ry="9" fill="#3D2D1E"/>
+            <ellipse cx="55" cy="156" rx="26" ry="6" fill="#E8C26A"/>
+            <ellipse cx="125" cy="160" rx="28" ry="9" fill="#3D2D1E"/>
+            <ellipse cx="125" cy="156" rx="26" ry="6" fill="#D9A653"/>
+            <ellipse cx="195" cy="160" rx="28" ry="9" fill="#3D2D1E"/>
+            <ellipse cx="195" cy="156" rx="26" ry="6" fill="#F4EFE0"/>
+            <ellipse cx="110" cy="222" rx="44" ry="14" fill="rgba(0,0,0,0.25)"/>
+            <path d="M 80 200 Q 80 184 92 180 L 128 180 Q 140 184 140 200 L 142 232 L 78 232 Z" fill="#5A8FAB"/>
+            <circle cx="92" cy="200" r="2" fill="#FFFFFF"/>
+            <circle cx="108" cy="208" r="2" fill="#FFFFFF"/>
+            <circle cx="124" cy="200" r="2" fill="#FFFFFF"/>
+            <circle cx="100" cy="216" r="2" fill="#FFFFFF"/>
+            <ellipse cx="78" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <ellipse cx="142" cy="194" rx="7" ry="10" fill="#5A3D26"/>
+            <circle cx="110" cy="160" r="14" fill="#5A3D26"/>
+            <path d="M 92 158 Q 110 138 128 158 Q 134 144 126 132 Q 110 124 94 132 Q 86 144 92 158 Z" fill="#FACC4D"/>
+            <circle cx="105" cy="160" r="1" fill="#1F1812"/>
+            <circle cx="115" cy="160" r="1" fill="#1F1812"/>
+            <path d="M 106 168 Q 110 170 114 168" stroke="#1F1812" stroke-width="0.8" fill="none"/>
+            <rect x="146" y="190" width="9" height="14" rx="1.5" fill="#0F1B16"/>
+            <rect x="147" y="192" width="7" height="9" fill="#43AA8B" opacity="0.7"/>
+          </svg>
+        </div>
+
+        <div class="market-section__hud">
+          <div><div class="num">128</div><div class="lbl" data-fr="Productrices accompagnées" data-en="Producers supported">Productrices accompagnées</div></div>
+          <div><div class="num">+34<em>%</em></div><div class="lbl" data-fr="Marge moyenne" data-en="Average margin">Marge moyenne</div></div>
+          <div><div class="num">7</div><div class="lbl" data-fr="Filières actives" data-en="Active value chains">Filières actives</div></div>
+          <div><div class="num">∞</div><div class="lbl" data-fr="Place du marché vivante" data-en="Living marketplace">Place du marché vivante</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── COCKPIT / CONTROL CENTER ─────────── -->
+    <section class="cockpit-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Tour de contrôle / dashboard live" data-en="Control center / live dashboard">Tour de contrôle / dashboard live</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Vos décisions, " data-en="Your decisions, ">Vos décisions, </span>
+              <em class="display-italic" data-fr="sur un seul écran." data-en="on one screen.">sur un seul écran.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="cockpit-section__layout">
+          <div class="cockpit-section__copy">
+            <h3 class="display"><span data-fr="Un " data-en="A ">Un </span><em data-fr="poste de pilotage" data-en="cockpit">poste de pilotage</em><span data-fr=" pour vos opérations agritech." data-en=" for your agritech ops."> pour vos opérations agritech.</span></h3>
+            <p data-fr="Tableau de bord unifié : KPIs récolte, météo, marché, irrigation, capteurs IoT et activité commerciale. Un seul endroit pour comprendre, décider, signer." data-en="Unified dashboard: harvest KPIs, weather, market, irrigation, IoT sensors and sales. One place to understand, decide, sign.">
+              Tableau de bord unifié : KPIs récolte, météo, marché, irrigation, capteurs IoT et activité commerciale. Un seul endroit pour comprendre, décider, signer.
+            </p>
+            <div class="cockpit-section__metrics">
+              <div><span class="name" data-fr="Sources de données" data-en="Data sources">Sources de données</span><span class="val">12</span></div>
+              <div><span class="name" data-fr="Latence rafraîchissement" data-en="Refresh latency">Latence rafraîchissement</span><span class="val">< 30s</span></div>
+              <div><span class="name" data-fr="Utilisateurs simultanés" data-en="Concurrent users">Utilisateurs simultanés</span><span class="val">128</span></div>
+              <div><span class="name" data-fr="Disponibilité" data-en="Uptime">Disponibilité</span><span class="val">99.9%</span></div>
+            </div>
+            <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; color: var(--fg-3); text-transform: uppercase;" data-fr="Astuce · survolez l'écran pour le voir s'aligner" data-en="Tip · hover the screen to see it align">Astuce · survolez l'écran pour le voir s'aligner</p>
+          </div>
+
+          <div class="cockpit-stage" aria-label="Tableau de bord KijaniLab">
+            <div class="cockpit-pop cockpit-pop--alpha"><span data-fr="Coopératives connectées" data-en="Connected co-ops">Coopératives connectées</span> · <b>128</b></div>
+            <div class="cockpit-pop cockpit-pop--beta"><span data-fr="Récolte semaine" data-en="Weekly harvest">Récolte semaine</span> · <b>+24%</b></div>
+            <div class="cockpit-pop cockpit-pop--gamma"><span data-fr="Capteurs en ligne" data-en="Sensors online">Capteurs en ligne</span> · <b>412</b></div>
+
+            <div class="cockpit-laptop" aria-hidden="true">
+              <div class="cockpit-laptop__screen">
+                <div class="cockpit-laptop__screen-inner">
+                  <div class="cockpit-tabbar">
+                    <div class="tabs">
+                      <span class="active">DASHBOARD</span>
+                      <span>FILIÈRES</span>
+                      <span>TERRAIN</span>
+                      <span>ATLAS</span>
+                    </div>
+                    <span class="live">SYNC LIVE</span>
+                  </div>
+                  <div class="cockpit-grid">
+                    <div class="cockpit-chart">
+                      <h5>Volume récolte / semaine</h5>
+                      <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+                        <line class="grid-line" x1="0" y1="14" x2="200" y2="14"/>
+                        <line class="grid-line" x1="0" y1="35" x2="200" y2="35"/>
+                        <line class="grid-line" x1="0" y1="56" x2="200" y2="56"/>
+                        <path class="area" d="M 0 70 L 0 56 C 24 50, 48 44, 72 36 S 130 24, 200 12 L 200 70 Z"/>
+                        <path class="line" d="M 0 56 C 24 50, 48 44, 72 36 S 130 24, 200 12"/>
+                        <circle class="point" cx="0"   cy="56" r="1.6"/>
+                        <circle class="point" cx="50"  cy="44" r="1.6"/>
+                        <circle class="point" cx="100" cy="32" r="1.6"/>
+                        <circle class="point" cx="150" cy="22" r="1.6"/>
+                        <circle class="point" cx="200" cy="12" r="1.6"/>
+                      </svg>
+                    </div>
+                    <div class="cockpit-card">
+                      <span>Trésorerie</span>
+                      <b>22k €</b>
+                    </div>
+                    <div class="cockpit-card">
+                      <span>Marge</span>
+                      <b>+34%</b>
+                    </div>
+                  </div>
+                  <div class="cockpit-bars">
+                    <h5>Filières actives</h5>
+                    <div class="cockpit-bars__row"><span>COTON</span><div class="track"><div class="fill" style="width: 84%;"></div></div><b>84%</b></div>
+                    <div class="cockpit-bars__row"><span>SOJA</span><div class="track"><div class="fill" style="width: 62%;"></div></div><b>62%</b></div>
+                    <div class="cockpit-bars__row"><span>ANACARDE</span><div class="track"><div class="fill" style="width: 71%;"></div></div><b>71%</b></div>
+                    <div class="cockpit-bars__row"><span>KARITÉ</span><div class="track"><div class="fill" style="width: 46%;"></div></div><b>46%</b></div>
+                  </div>
+                  <div class="cockpit-bottom">
+                    <span>KijaniLab Console v2 · session b1f4</span>
+                    <span><b>● 12</b> sources connectées</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cockpit-laptop__base"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°10 ATLAS / MAP ─────────── -->
+    <section class="atlas" id="atlas">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Atlas terrain / live" data-en="Field atlas / live">Atlas terrain / live</span>
+            <h2 class="section-head__title display">
+              <span data-fr="La carte n'est pas une décoration. " data-en="The map is not decoration. ">La carte n'est pas une décoration. </span>
+              <em class="display-italic" data-fr="C'est la décision." data-en="It's the decision.">C'est la décision.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="atlas__layout">
+          <div class="atlas__copy">
+            <h3 class="display"><span data-fr="Voir " data-en="See ">Voir </span><em data-fr="ce qui bouge réellement" data-en="what's really moving">ce qui bouge réellement</em><span data-fr=" sur le terrain." data-en=" in the field."> sur le terrain.</span></h3>
+            <p data-fr="On ne livre pas des cartes UI : on construit des maps géospatiales — zones d'intervention, risques climat, performance des chaînes de valeur, données capteurs. Chaque point est une décision concrète qui cherche un décideur." data-en="We don't ship UI cards labeled “map”: we build true geospatial systems — intervention zones, climate risk, value-chain performance, sensor data. Every point is a real decision waiting for a real decision-maker.">
+              On ne livre pas des cartes UI : on construit des maps géospatiales — zones d'intervention, risques climat, performance des chaînes de valeur, données capteurs. Chaque point est une décision concrète qui cherche un décideur.
+            </p>
+            <div class="atlas__stack">
+              <div class="row"><span class="name" data-fr="Zones d'intervention" data-en="Intervention zones">Zones d'intervention</span><span class="count">36</span></div>
+              <div class="row"><span class="name" data-fr="Coopératives connectées" data-en="Connected cooperatives">Coopératives connectées</span><span class="count">128</span></div>
+              <div class="row"><span class="name" data-fr="Capteurs déployés" data-en="Deployed sensors">Capteurs déployés</span><span class="count">412</span></div>
+              <div class="row"><span class="name" data-fr="Producteurs cartographiés" data-en="Mapped producers">Producteurs cartographiés</span><span class="count">9 814</span></div>
+            </div>
+            <a href="pages/contact.html" class="btn btn--ghost"><span data-fr="Demander un atlas pilote" data-en="Request a pilot atlas">Demander un atlas pilote</span><span class="arrow">→</span></a>
+          </div>
+
+          <div class="map" aria-label="Atlas KijaniLab — Afrique de l'Ouest interactive">
+            <div class="map__chrome">
+              <span class="lbl">AFRIQUE DE L'OUEST · ATLAS</span>
+              <span class="lbl live" data-fr="LIVE · OSM" data-en="LIVE · OSM">LIVE · OSM</span>
+            </div>
+            <div id="leaflet-map" class="leaflet-host"></div>
+            <div class="map__legend">
+              <div class="row"><span data-fr="Bureaux" data-en="Offices">Bureaux</span><b>1</b></div>
+              <div class="row"><span data-fr="Antennes terrain" data-en="Field antennas">Antennes terrain</span><b>11</b></div>
+              <div class="row"><span data-fr="Pays actifs" data-en="Active countries">Pays actifs</span><b>7</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°11 PRODUCTS ─────────── -->
+    <section class="products">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Produits digitaux / catalogue" data-en="Digital products / catalogue">Produits digitaux / catalogue</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Logiciels qui survivent " data-en="Software that survives ">Logiciels qui survivent </span>
+              <em class="display-italic" data-fr="à la saison." data-en="the season.">à la saison.</em>
+            </h2>
+          </div>
+        </div>
+        <div class="products__grid">
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 4 7v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-5Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3 data-fr="Détection des maladies" data-en="Disease detection">Détection des maladies</h3><p data-fr="App mobile vision IA pour repérer mildiou, mosaïques et carences sur photo de feuille." data-en="Mobile vision app spotting mildew, mosaics and deficiencies from a leaf photo.">App mobile vision IA pour repérer mildiou, mosaïques et carences sur photo de feuille.</p><div class="meta">iOS · Android · offline</div></article>
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8 12 3l9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg></div><h3 data-fr="Gestion d'exploitation" data-en="Farm management">Gestion d'exploitation</h3><p data-fr="Plan de cultures, intrants, main-d'œuvre, marges. Une exploitation lisible en un écran." data-en="Crop plan, inputs, labor, margins. The whole farm legible on one screen.">Plan de cultures, intrants, main-d'œuvre, marges. Une exploitation lisible en un écran.</p><div class="meta">Web · Mobile</div></article>
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="20" r="2"/><circle cx="18" cy="20" r="2"/><path d="M2 4h3l3 12h12l2-7H7"/></svg></div><h3 data-fr="Marketplace filière" data-en="Value-chain marketplace">Marketplace filière</h3><p data-fr="Producteurs ↔ acheteurs : commande, escrow, logistique, traçabilité dans le même flux." data-en="Producers ↔ buyers: ordering, escrow, logistics, traceability in one flow.">Producteurs ↔ acheteurs : commande, escrow, logistique, traçabilité dans le même flux.</p><div class="meta">Web · API · paiements</div></article>
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></div><h3 data-fr="Portail traçabilité" data-en="Traceability portal">Portail traçabilité</h3><p data-fr="QR sur lot, historique immuable, audit ouvert. Pour exportateurs, certifieurs, distributeurs." data-en="QR per batch, immutable history, open audit. For exporters, certifiers, distributors.">QR sur lot, historique immuable, audit ouvert. Pour exportateurs, certifieurs, distributeurs.</p><div class="meta">Blockchain · QR · audit</div></article>
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></svg></div><h3 data-fr="Suivi des interventions" data-en="Field intervention tracker">Suivi des interventions</h3><p data-fr="Tablette agent, géolocalisation, formulaires offline, indicateurs en temps réel." data-en="Field tablet, geolocation, offline forms, real-time indicators.">Tablette agent, géolocalisation, formulaires offline, indicateurs en temps réel.</p><div class="meta">Tablette · GPS · offline</div></article>
+          <article class="product"><div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17h2l1-3 4 6 4-12 2 9h5"/></svg></div><h3 data-fr="Capteurs &amp; irrigation" data-en="Sensors &amp; irrigation">Capteurs & irrigation</h3><p data-fr="Sondes humidité/température, règles d'arrosage, alertes stress hydrique sur WhatsApp." data-en="Soil moisture/temp probes, irrigation rules, water-stress alerts on WhatsApp.">Sondes humidité/température, règles d'arrosage, alertes stress hydrique sur WhatsApp.</p><div class="meta">LoRa · IoT · WhatsApp</div></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°12 PROJETS (text-only) ─────────── -->
+    <section class="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Projets en avant / cas réels" data-en="Featured projects / real cases">Projets en avant / cas réels</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Pas de mockup. " data-en="No mockups. ">Pas de mockup. </span>
+              <em class="display-italic" data-fr="Des sites en production." data-en="Live sites.">Des sites en production.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="projects__list">
+          <a class="project-row" href="https://lerural.bj" target="_blank" rel="noreferrer">
+            <span class="ix">i.</span>
+            <div class="title">
+              <h3 class="display"><span>lerural</span><em>.bj</em></h3>
+              <span class="meta" data-fr="Plateforme média rurale · Bénin · 2024" data-en="Rural media platform · Benin · 2024">Plateforme média rurale · Bénin · 2024</span>
+            </div>
+            <div class="stack">
+              <span>Next.js</span><span>Sanity</span><span>FR/EN</span><span>SEO</span><span data-fr="Newsletter" data-en="Newsletter">Newsletter</span>
+            </div>
+            <span class="visit">lerural.bj →</span>
+            <div class="project-row__expand">
+              <div><h4 data-fr="Problème" data-en="Problem">Problème</h4><p data-fr="Information rurale dispersée, peu de canaux fiables pour les producteurs et acteurs filière." data-en="Scattered rural information; few reliable channels for producers and value-chain actors.">Information rurale dispersée, peu de canaux fiables pour les producteurs et acteurs filière.</p></div>
+              <div><h4 data-fr="Solution" data-en="Solution">Solution</h4><p data-fr="Plateforme média rurale FR/EN, contenus tracés, calendrier éditorial, distribution multicanale." data-en="Bilingual rural media platform with traced content, editorial calendar and multichannel distribution.">Plateforme média rurale FR/EN, contenus tracés, calendrier éditorial, distribution multicanale.</p></div>
+              <div><h4 data-fr="Impact" data-en="Impact">Impact</h4><p data-fr="Audience récurrente, 12 partenariats institutionnels, source de référence pour la filière." data-en="Recurring audience, 12 institutional partnerships, reference source for the value chain.">Audience récurrente, 12 partenariats institutionnels, source de référence pour la filière.</p></div>
+            </div>
+          </a>
+
+          <a class="project-row" href="https://ididong.org" target="_blank" rel="noreferrer">
+            <span class="ix">ii.</span>
+            <div class="title">
+              <h3 class="display"><span>ididong</span><em>.org</em></h3>
+              <span class="meta" data-fr="Site communautaire · Nigeria · 2025" data-en="Community site · Nigeria · 2025">Site communautaire · Nigeria · 2025</span>
+            </div>
+            <div class="stack">
+              <span>Next.js</span><span>Firebase</span><span data-fr="Espace membre" data-en="Member area">Espace membre</span><span>i18n</span>
+            </div>
+            <span class="visit">ididong.org →</span>
+            <div class="project-row__expand">
+              <div><h4 data-fr="Problème" data-en="Problem">Problème</h4><p data-fr="Communauté en diaspora sans dispositif lisible pour suivre, financer et coordonner ses programmes." data-en="A diaspora community lacking a clear system to follow, fund and coordinate its programmes.">Communauté en diaspora sans dispositif lisible pour suivre, financer et coordonner ses programmes.</p></div>
+              <div><h4 data-fr="Solution" data-en="Solution">Solution</h4><p data-fr="Site, espace membre, base de programmes, outils de plaidoyer, identité éditoriale forte." data-en="Site, member area, programme database, advocacy tools, strong editorial identity.">Site, espace membre, base de programmes, outils de plaidoyer, identité éditoriale forte.</p></div>
+              <div><h4 data-fr="Impact" data-en="Impact">Impact</h4><p data-fr="Communauté ré-engagée, programmes mieux suivis, jonctions diaspora/terrain plus claires." data-en="Re-engaged community, better-tracked programmes, clearer diaspora/field bridges.">Communauté ré-engagée, programmes mieux suivis, jonctions diaspora/terrain plus claires.</p></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°13 ODD ─────────── -->
+    <section class="odss">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Alignement / Nations Unies" data-en="Alignment / United Nations">Alignement / Nations Unies</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Huit " data-en="Eight ">Huit </span>
+              <em class="display-italic" data-fr="objectifs, " data-en="goals, ">objectifs, </em>
+              <span data-fr="une " data-en="one ">une </span>
+              <em class="display-italic" data-fr="trajectoire." data-en="line.">trajectoire.</em>
+            </h2>
+          </div>
+        </div>
+        <div class="odss__grid">
+          <a class="odd odd-1"  href="pages/contact.html"><div class="num">01</div><h4 data-fr="Pas de pauvreté" data-en="No poverty">Pas de pauvreté</h4></a>
+          <a class="odd odd-2"  href="pages/contact.html"><div class="num">02</div><h4 data-fr="Faim « zéro »" data-en="Zero hunger">Faim « zéro »</h4></a>
+          <a class="odd odd-5"  href="pages/contact.html"><div class="num">05</div><h4 data-fr="Égalité entre les sexes" data-en="Gender equality">Égalité entre les sexes</h4></a>
+          <a class="odd odd-8"  href="pages/contact.html"><div class="num">08</div><h4 data-fr="Travail décent & croissance" data-en="Decent work & growth">Travail décent & croissance</h4></a>
+          <a class="odd odd-9"  href="pages/contact.html"><div class="num">09</div><h4 data-fr="Industrie & innovation" data-en="Industry & innovation">Industrie & innovation</h4></a>
+          <a class="odd odd-12" href="pages/contact.html"><div class="num">12</div><h4 data-fr="Consommation responsable" data-en="Responsible consumption">Consommation responsable</h4></a>
+          <a class="odd odd-13" href="pages/contact.html"><div class="num">13</div><h4 data-fr="Action climatique" data-en="Climate action">Action climatique</h4></a>
+          <a class="odd odd-17" href="pages/contact.html"><div class="num">17</div><h4 data-fr="Partenariats" data-en="Partnerships">Partenariats</h4></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°14 ACADEMY ─────────── -->
+    <section class="academy">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="Académie KijaniLab / formations" data-en="KijaniLab Academy / training">Académie KijaniLab / formations</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Apprendre, " data-en="Learn, ">Apprendre, </span>
+              <em class="display-italic" data-fr="puis revenir." data-en="then come back.">puis revenir.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="academy__hero">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1800&q=80" alt="Atelier de formation KijaniLab" loading="lazy" />
+          <span class="badge"><span data-fr="6 parcours · 1 atelier sur mesure" data-en="6 tracks · 1 custom workshop">6 parcours · 1 atelier sur mesure</span> · <b data-fr="2026" data-en="2026">2026</b></span>
+        </div>
+
+        <div class="academy__grid">
+          <div class="academy__copy">
+            <h3 class="display"><span data-fr="Une académie " data-en="An academy ">Une académie </span><em data-fr="pour les équipes" data-en="for the teams">pour les équipes</em><span data-fr=" qui veulent l'autonomie." data-en=" that want autonomy."> qui veulent l'autonomie.</span></h3>
+            <p data-fr="Parcours courts, certifiants et opérationnels en IA appliquée, automatisation, data, marketing digital. Espace apprenant, espace administrateur, suivi de progression — tout est intégré au site." data-en="Short, certifying, operational tracks in applied AI, automation, data, digital marketing. Learner and admin spaces, progress tracking — all part of the site.">
+              Parcours courts, certifiants et opérationnels en IA appliquée, automatisation, data, marketing digital. Espace apprenant, espace administrateur, suivi de progression — tout est intégré au site.
+            </p>
+            <div class="row">
+              <a href="pages/dashboard.html" class="btn btn--primary"><span data-fr="Voir les formations" data-en="Browse training">Voir les formations</span><span class="arrow">→</span></a>
+              <a href="pages/auth.html" class="btn btn--ghost"><span data-fr="Espace membre" data-en="Member area">Espace membre</span><span class="arrow">→</span></a>
+            </div>
+          </div>
+
+          <div class="academy__panel">
+            <div class="academy__row"><span class="ix">A · 01</span><span class="name" data-fr="IA appliquée aux opérations" data-en="Applied AI for operations">IA appliquée aux opérations</span><span class="meta">12 h · 6 séances</span></div>
+            <div class="academy__row"><span class="ix">A · 02</span><span class="name" data-fr="Automatisation sans code" data-en="No-code automation">Automatisation sans code</span><span class="meta">8 h · 4 séances</span></div>
+            <div class="academy__row"><span class="ix">A · 03</span><span class="name" data-fr="Data agritech & dashboards" data-en="Agritech data & dashboards">Data agritech & dashboards</span><span class="meta">14 h · 7 séances</span></div>
+            <div class="academy__row"><span class="ix">A · 04</span><span class="name" data-fr="Cartographie QGIS pour ONG" data-en="QGIS mapping for NGOs">Cartographie QGIS pour ONG</span><span class="meta">10 h · 5 séances</span></div>
+            <div class="academy__row"><span class="ix">A · 05</span><span class="name" data-fr="Marketing digital filière" data-en="Value-chain digital marketing">Marketing digital filière</span><span class="meta">8 h · 4 séances</span></div>
+            <div class="academy__row"><span class="ix">A · 06</span><span class="name" data-fr="Atelier IA sur mesure (équipes)" data-en="Custom team AI workshop">Atelier IA sur mesure (équipes)</span><span class="meta" data-fr="sur devis" data-en="on quote">sur devis</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── N°15 FAQ ─────────── -->
+    <section class="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-head__meta">
+            <span class="eyebrow" data-fr="FAQ / les questions qui reviennent" data-en="FAQ / common questions">FAQ / les questions qui reviennent</span>
+            <h2 class="section-head__title display">
+              <span data-fr="Avant que vous " data-en="Before you ">Avant que vous </span>
+              <em class="display-italic" data-fr="ne demandiez." data-en="ask.">ne demandiez.</em>
+            </h2>
+          </div>
+        </div>
+
+        <div class="faq__grid">
+          <p class="lede" data-fr="On répond direct, sans jargon. Si la réponse n'y est pas, écrivez-nous — la conversation est plus utile qu'un PDF." data-en="We answer plainly, without jargon. If your question isn't here, write us — a conversation beats a PDF.">
+            On répond direct, sans jargon. Si la réponse n'y est pas, écrivez-nous — la conversation est plus utile qu'un PDF.
+          </p>
+          <div class="faq__list">
+            <details><summary><span class="ix">01</span><span data-fr="Quel est le budget minimum d'un projet ?" data-en="What's the minimum project budget?">Quel est le budget minimum d'un projet ?</span><span class="toggle">+</span></summary><p data-fr="Un site éditorial commence à 2 500 € ; un produit digital terrain à 12 000 € ; un dispositif IA + data à 25 000 €. On cale toujours le scope sur la valeur, pas sur l'estimation." data-en="An editorial site starts at €2,500; a field digital product at €12,000; an AI + data system at €25,000. We always size scope to value.">Un site éditorial commence à 2 500 € ; un produit digital terrain à 12 000 € ; un dispositif IA + data à 25 000 €. On cale toujours le scope sur la valeur, pas sur l'estimation.</p></details>
+            <details><summary><span class="ix">02</span><span data-fr="Quel est le délai habituel ?" data-en="What's the usual delay?">Quel est le délai habituel ?</span><span class="toggle">+</span></summary><p data-fr="Un site : 4–6 semaines. Un dashboard data : 6–10. Un produit digital : 10–16. On démarre par un sprint de cadrage de 5 jours pour réduire l'incertitude." data-en="Site: 4–6 weeks. Data dashboard: 6–10. Digital product: 10–16. We start with a 5-day discovery sprint to cut ambiguity.">Un site : 4–6 semaines. Un dashboard data : 6–10. Un produit digital : 10–16. On démarre par un sprint de cadrage de 5 jours pour réduire l'incertitude.</p></details>
+            <details><summary><span class="ix">03</span><span data-fr="Faut-il être déjà mature en IA ?" data-en="Do we need to be AI-mature already?">Faut-il être déjà mature en IA ?</span><span class="toggle">+</span></summary><p data-fr="Non. La majorité de nos clients démarrent par un audit puis un cas pilote court (3–5 jours) avant tout déploiement. On installe l'IA comme une habitude, pas comme une révolution." data-en="No. Most clients start with an audit then a 3–5 day pilot before any deployment. We install AI as a habit, not a revolution.">Non. La majorité de nos clients démarrent par un audit puis un cas pilote court (3–5 jours) avant tout déploiement. On installe l'IA comme une habitude, pas comme une révolution.</p></details>
+            <details><summary><span class="ix">04</span><span data-fr="Travaillez-vous hors Afrique ?" data-en="Do you work outside Africa?">Travaillez-vous hors Afrique ?</span><span class="toggle">+</span></summary><p data-fr="Oui. Notre ancrage est ouest-africain mais nous livrons régulièrement des projets en Europe et en Amérique du Nord, en français et en anglais." data-en="Yes. Our base is West Africa but we routinely deliver projects in Europe and North America, in French and English.">Oui. Notre ancrage est ouest-africain mais nous livrons régulièrement des projets en Europe et en Amérique du Nord, en français et en anglais.</p></details>
+            <details><summary><span class="ix">05</span><span data-fr="Quel support après livraison ?" data-en="What support after delivery?">Quel support après livraison ?</span><span class="toggle">+</span></summary><p data-fr="Trois mois de garantie inclus, plus une formule de maintenance trimestrielle ou annuelle. Code, modèles et documentation sont à vous — pas de verrou." data-en="Three months warranty included, plus a quarterly or yearly maintenance plan. Code, models and docs are yours — no lock-in.">Trois mois de garantie inclus, plus une formule de maintenance trimestrielle ou annuelle. Code, modèles et documentation sont à vous — pas de verrou.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── FINAL CTA ─────────── -->
+    <section class="final">
+      <div class="final__bg" aria-hidden="true"></div>
+      <div class="wrap final__inner">
+        <span class="eyebrow" style="justify-self: center;" data-fr="Prendre contact / sans engagement" data-en="Get in touch / no strings">Prendre contact / sans engagement</span>
+        <h2 class="display">
+          <span data-fr="Décrivez " data-en="Describe ">Décrivez </span>
+          <em data-fr="le terrain. " data-en="the field. ">le terrain. </em><br/>
+          <span data-fr="On revient avec " data-en="We come back with ">On revient avec </span>
+          <em data-fr="un plan." data-en="a plan.">un plan.</em>
+        </h2>
+        <div class="row center-row" style="gap: 14px; flex-wrap: wrap;">
+          <a class="btn btn--primary" href="pages/contact.html"><span data-fr="Demander un devis" data-en="Request a quote">Demander un devis</span><span class="arrow">→</span></a>
+          <a class="btn btn--ghost" href="https://wa.me/2290167659717" target="_blank" rel="noreferrer"><span data-fr="WhatsApp direct" data-en="Direct WhatsApp">WhatsApp direct</span><span class="arrow">→</span></a>
+        </div>
+
+        <div class="final__channels">
+          <a class="final__ch" href="tel:+2290167659717"><span class="lbl" data-fr="Téléphone principal" data-en="Primary phone">Téléphone principal</span><span class="val">+229 01 67 65 97 17</span></a>
+          <a class="final__ch" href="tel:+2290147146161"><span class="lbl" data-fr="Téléphone secondaire" data-en="Secondary phone">Téléphone secondaire</span><span class="val">+229 01 47 14 61 61</span></a>
+          <a class="final__ch" href="https://wa.me/2290167659717" target="_blank" rel="noreferrer"><span class="lbl">WhatsApp</span><span class="val">+229 01 67 65 97 17</span></a>
+          <a class="final__ch" href="mailto:contact@kijanilab.com"><span class="lbl">Email</span><span class="val">contact@kijanilab.com</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── FOOTER ─────────── -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <img src="/showcase/assets/logo-green-black-leaf.svg" alt="" data-logo />
+            <p data-fr="L'atelier digital qui fait entrer l'agriculture dans son avenir, depuis Cotonou." data-en="The digital studio bringing agriculture into its future, out of Cotonou.">L'atelier digital qui fait entrer l'agriculture dans son avenir, depuis Cotonou.</p>
+            <small>KijaniLab · 2017 — 2026</small>
+          </div>
+          <div>
+            <h5 data-fr="Site" data-en="Site">Site</h5>
+            <ul>
+              <li><a href="pages/services.html" data-fr="Services" data-en="Services">Services</a></li>
+              <li><a href="pages/projets.html" data-fr="Projets" data-en="Projects">Projets</a></li>
+              
+              <li><a href="pages/contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5 data-fr="Espace" data-en="Workspace">Espace</h5>
+            <ul>
+              <li><a href="pages/auth.html" data-fr="Connexion" data-en="Sign in">Connexion</a></li>
+              <li><a href="pages/dashboard.html" data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</a></li>
+              <li><a href="pages/admin.html" data-fr="Administration" data-en="Admin">Administration</a></li>
+              <li><a href="MIGRATION.md" data-fr="Migration Next.js" data-en="Next.js migration">Migration Next.js</a></li>
+            </ul>
+          </div>
+          <div>
+            <h5 data-fr="Promoteur & contact" data-en="Founder & contact">Promoteur & contact</h5>
+            <ul>
+              <li>Georgeo AGBAHUNGBA</li>
+              <li style="color: var(--fg-3);" data-fr="Agroéconomiste & Software Engineer" data-en="Agro-economist & Software Engineer">Agroéconomiste & Software Engineer</li>
+              <li><a href="mailto:contact@kijanilab.com">contact@kijanilab.com</a></li>
+              <li><a href="tel:+2290167659717">+229 01 67 65 97 17</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <div>© 2026 KijaniLab · <span data-fr="Tous droits réservés" data-en="All rights reserved">Tous droits réservés</span></div>
+          <div class="promoter"><span data-fr="Conçu à Cotonou par " data-en="Crafted in Cotonou by ">Conçu à Cotonou par </span><b>KijaniLab</b></div>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <a class="wa" href="https://wa.me/2290167659717" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.4.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4 0 1.4 1 2.7 1.2 2.9.1.2 2 3.2 4.9 4.4.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5-1.3c1.4.8 3.1 1.3 5 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    WhatsApp
+  </a>
+
+    <button class="to-top" id="to-top" type="button" aria-label="Retour en haut" title="Retour en haut">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"/>
+      <polyline points="5 12 12 5 19 12"/>
+    </svg>
+  </button>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
