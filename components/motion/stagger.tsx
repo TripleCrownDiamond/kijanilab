@@ -17,7 +17,7 @@ type StaggerProps = Omit<HTMLMotionProps<"div">, "ref" | "children"> & {
 export function Stagger({ children, delay = 0, childDelay = 0.08, once = true, ...rest }: StaggerProps) {
   const reduceMotion = useReducedMotion();
   if (reduceMotion) {
-    return <div {...(rest as HTMLMotionProps<"div">)}>{children}</div>;
+    return <motion.div {...rest}>{children}</motion.div>;
   }
   return (
     <motion.div

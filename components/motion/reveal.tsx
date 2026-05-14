@@ -1,8 +1,10 @@
 "use client";
 
 import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
+import type { ReactNode } from "react";
 
-type RevealProps = Omit<HTMLMotionProps<"div">, "ref"> & {
+type RevealProps = Omit<HTMLMotionProps<"div">, "ref" | "children"> & {
+  children?: ReactNode;
   delay?: number;
   y?: number;
   once?: boolean;
@@ -18,7 +20,7 @@ type RevealProps = Omit<HTMLMotionProps<"div">, "ref"> & {
 export function Reveal({ delay = 0, y = 28, once = true, children, ...rest }: RevealProps) {
   const reduceMotion = useReducedMotion();
   if (reduceMotion) {
-    return <div {...(rest as HTMLMotionProps<"div">)}>{children}</div>;
+    return <motion.div {...rest}>{children}</motion.div>;
   }
   return (
     <motion.div
