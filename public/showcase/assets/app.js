@@ -82,6 +82,89 @@
   function initNav() {
     var nav = document.getElementById('nav');
     if (!nav) return;
+
+    var mobileToggle = null;
+    var mobilePanel = null;
+
+    function closeMobileNav() {
+      if (!mobileToggle || !mobilePanel) return;
+      nav.classList.remove('nav--mobile-open');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobilePanel.setAttribute('hidden', '');
+    }
+
+    function openMobileNav() {
+      if (!mobileToggle || !mobilePanel) return;
+      nav.classList.add('nav--mobile-open');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      mobilePanel.removeAttribute('hidden');
+    }
+
+    function initMobileNav() {
+      var menu = nav.querySelector('.nav__menu');
+      var right = nav.querySelector('.nav__right');
+      if (!menu || !right) return;
+
+      mobileToggle = document.createElement('button');
+      mobileToggle.className = 'nav__toggle';
+      mobileToggle.type = 'button';
+      mobileToggle.setAttribute('aria-label', 'Menu');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobileToggle.setAttribute('aria-controls', 'nav-mobile-menu');
+      mobileToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="17" x2="20" y2="17"></line></svg>';
+      right.appendChild(mobileToggle);
+
+      mobilePanel = document.createElement('div');
+      mobilePanel.className = 'nav__mobile';
+      mobilePanel.id = 'nav-mobile-menu';
+      mobilePanel.setAttribute('hidden', '');
+
+      menu.querySelectorAll('a').forEach(function (link) {
+        mobilePanel.appendChild(link.cloneNode(true));
+      });
+
+      var loginLink = nav.querySelector('.nav__login');
+      var ctaLink = nav.querySelector('.nav__cta');
+      if (loginLink || ctaLink) {
+        var sep = document.createElement('div');
+        sep.className = 'nav__mobile-sep';
+        mobilePanel.appendChild(sep);
+      }
+
+      [loginLink, ctaLink].forEach(function (link) {
+        if (!link) return;
+        var cloned = link.cloneNode(true);
+        cloned.removeAttribute('class');
+        mobilePanel.appendChild(cloned);
+      });
+
+      nav.appendChild(mobilePanel);
+
+      mobileToggle.addEventListener('click', function () {
+        var isOpen = nav.classList.contains('nav--mobile-open');
+        if (isOpen) closeMobileNav();
+        else openMobileNav();
+      });
+
+      mobilePanel.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMobileNav);
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!nav.contains(event.target)) closeMobileNav();
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeMobileNav();
+      });
+
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 1024) closeMobileNav();
+      });
+    }
+
+    initMobileNav();
+
     var onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 12); };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
